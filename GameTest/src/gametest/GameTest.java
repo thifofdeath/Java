@@ -2,14 +2,22 @@ package gametest;
 
 import javax.swing.*;
 
-public class GameTest {
+public class GameTest 
+{
 
-    public static void main(String[] args) 
+    public GameTest()
     {
-       JFrame frame = new JFrame("2D Game");
-       frame.add(new Board());
-       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-       frame.setSize(1200,365);
-       frame.setVisible(true);
+        JFrame frame = new JFrame();
+        frame.add(new Board());	
+        frame.setTitle("2-D Test Game");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1200,365);
+        frame.setVisible(true);
+        frame.setLocationRelativeTo(null);
+    }
+	
+    public static void main(String[] args)
+    {
+	new GameTest();
     }
 }

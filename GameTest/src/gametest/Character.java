@@ -1,59 +1,129 @@
 package gametest;
 
-import javax.swing.ImageIcon;
+import javax.swing.*;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class Character 
 {
-    int x, dx, y, nx2, nx, leftrev, dy;
+    // Declarations
+    int valueX, valueY, moveX, moveY, FrameLength, FrameHeightTerrain, CharacterPos ;
     Image character;
     //boolean left, right;
+    // Image Initializing
     ImageIcon def = new ImageIcon("C:/Users/thifofdeath/Documents/Game Test JAVA/default.png");
     ImageIcon right = new ImageIcon("C:/Users/thifofdeath/Documents/Game Test JAVA/dude.png");
     ImageIcon left = new ImageIcon("C:/Users/thifofdeath/Documents/Game Test JAVA/test.png");
     ImageIcon jump = new ImageIcon("C:/Users/thifofdeath/Documents/Game Test JAVA/jump.png");
     ImageIcon jumprev = new ImageIcon("C:/Users/thifofdeath/Documents/Game Test JAVA/jumprev.png");
     
+    int ammo = 25;
+    static ArrayList bullets;
+    
     public Character()
     {
-        
+        // Integer Value Initializing
         character = def.getImage();
-        leftrev = 150;
-        x = 75;
-        nx2 = 1200;
-        nx = 0;
-        y = 172;
+        CharacterPos = 150;
+        
+        valueX = 10;
+        valueY = 172;
+        
+        FrameLength = 1200;
+        FrameHeightTerrain = 0;
+        
+        bullets = new ArrayList();
+    }
+    
+    public Rectangle getBounds()
+    {
+        return new Rectangle(CharacterPos, valueY, 63, 154);
+    }  
+
+    public static ArrayList getBullets()
+    {
+        return bullets;
+    }
+
+    public void fire()
+    {
+        if (ammo > 0)
+        {
+            ammo--;
+            //The v is from the board class, which corresponds to the character's
+            //position when it is jumping, resulting in the bullets being formed 
+            //at a higher position when the character is at the peak of its jump
+            Bullet a = new Bullet ((CharacterPos + 60), (Board.v + (154/2)), ("C:/Users/thifofdeath/Documents/Game Test JAVA/bullet.png"));
+            bullets.add(a);
+        }
     }
    
     public void move()
     {
-        if (dx != -1)
+        if (moveX != -1)
         {
-            if (leftrev + dx <= 150)
-                leftrev = leftrev + dx;
+            if (CharacterPos + moveX <= 150)
+                CharacterPos += moveX;
+            // Moves Background instead of character
             else 
             {
-                x = x + dx;
-                nx2 = nx2 + dx;
-                nx = nx + dx;
+                valueX = valueX + moveX;
+                FrameLength = FrameLength + moveX;
+                FrameHeightTerrain = FrameHeightTerrain + moveX;
             }
         }	
         else
 	{
-		if (leftrev + dx >0)
-		leftrev = leftrev + dx;
-	}		
+		if (CharacterPos + moveX >0)
+		CharacterPos = CharacterPos + moveX;
+	} 		
     }
     
-    public int getX()
+        /* Moves Character only /*
+        CharacterPos += moveX;
+        if (CharacterPos >= 600)
+        {
+            FrameLength += moveX;
+            FrameHeightTerrain += moveX;
+            valueX += moveX;
+        }
+        */
+    
+    public int getValueX()
     {
-        return x;
+        return valueX;
     }
     
-    public int getY()
+    public int getValueY()
     {
-        return y;
+        return valueY;
+    }
+
+    public int getFrameHeight() 
+    {
+        return FrameHeightTerrain;
+    }
+
+    public int getFrameLength() 
+    {
+        return FrameLength;
+    }
+
+    public int getMoveX() 
+    {
+        return moveX;
+    }
+    
+    public int getMoveY()
+    {
+        return moveY;
+    }
+    
+    public int getChar()
+    {
+        return CharacterPos;
     }
     
     public Image getImage()
@@ -67,29 +137,27 @@ public class Character
         
         if (key == KeyEvent.VK_LEFT)
         {
-            dx = -1;
+            moveX = -1;
             character = left.getImage();
         }
         
         if (key == KeyEvent.VK_RIGHT)
         {
-            dx = 1;
+            moveX = 1;
             character = right.getImage();
         }
+        
         if (key == KeyEvent.VK_UP)
         {
-            if (dx == 1  || key == KeyEvent.VK_UP)
-            {
-                dy = 1;
-                character = jump.getImage();
-            }
-            if (dx == -1)
-            {
-                dy = 1;
-                character = jumprev.getImage();
-            }
+            moveY = 1;
+            character = jump.getImage();
         }
         
+        if (key == KeyEvent.VK_SPACE)
+        {
+            fire();
+        }
+
     }
     
     public void keyReleased(KeyEvent e)
@@ -98,19 +166,19 @@ public class Character
 
         if (key == KeyEvent.VK_LEFT)
         {
-            dx = 0;
+            moveX = 0;
             character = def.getImage();
         }
         
         if (key == KeyEvent.VK_RIGHT)
         {
-            dx = 0;
+            moveX = 0;
             character = def.getImage();
         }
         
         if (key == KeyEvent.VK_UP)
         {
-            dy = 0;
+            moveY = 0;
             character = def.getImage();
         }
     }
