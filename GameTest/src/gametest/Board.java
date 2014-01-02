@@ -28,14 +28,14 @@ public class Board extends JPanel implements ActionListener, Runnable
         p = new Character();
         addKeyListener(new AL());
         setFocusable(true);
-        ImageIcon i = new ImageIcon("C:/Users/thifofdeath/Documents/Game Test JAVA/back.jpg");
+        ImageIcon i = new ImageIcon("back.jpg");
         img = i.getImage();
         time = new Timer(5, this);
         time.start();
         
-        bul = new Bullet(350, 210, "C:/Users/thifofdeath/Documents/Game Test JAVA/bullet.png");
-        en = new Enemy(700, 200, "C:/Users/thifofdeath/Documents/Game Test JAVA/enemy.png");
-	en2 = new Enemy(700, 200, "C:/Users/thifofdeath/Documents/Game Test JAVA/enemy.png");
+        bul = new Bullet(350, 210, "bullet.png");
+        en = new Enemy(700, 200, "enemy.png");
+	en2 = new Enemy(700, 200, "enemy.png");
         
     }
             

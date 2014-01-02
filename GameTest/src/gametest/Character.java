@@ -13,11 +13,11 @@ public class Character
     Image character;
     //boolean left, right;
     // Image Initializing
-    ImageIcon def = new ImageIcon("C:/Users/thifofdeath/Documents/Game Test JAVA/default.png");
-    ImageIcon right = new ImageIcon("C:/Users/thifofdeath/Documents/Game Test JAVA/dude.png");
-    ImageIcon left = new ImageIcon("C:/Users/thifofdeath/Documents/Game Test JAVA/test.png");
-    ImageIcon jump = new ImageIcon("C:/Users/thifofdeath/Documents/Game Test JAVA/jump.png");
-    ImageIcon jumprev = new ImageIcon("C:/Users/thifofdeath/Documents/Game Test JAVA/jumprev.png");
+    ImageIcon def = new ImageIcon("default.png");
+    ImageIcon right = new ImageIcon("dude.png");
+    ImageIcon left = new ImageIcon("test.png");
+    ImageIcon jump = new ImageIcon("jump.png");
+    ImageIcon jumprev = new ImageIcon("jumprev.png");
      
     int velX = 0;
     int velY = 0;
@@ -79,7 +79,7 @@ public class Character
                 // CharacterPos + 63, where 63 = the length of the character which is 63 x 154
                 // And valueY + 154/2 shoots from the middle of the character which is why
                 // It is 154 / 2
-                Bullet a = new Bullet ((CharacterPos + 63), (valueY + (154/2)), ("C:/Users/thifofdeath/Documents/Game Test JAVA/bullet.png"));
+                Bullet a = new Bullet ((CharacterPos + 63), (valueY + (154/2)), ("bullet.png"));
                 bullets.add(a);
                 allow = false;
             }

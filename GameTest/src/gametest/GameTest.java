@@ -11,7 +11,7 @@ public class GameTest
         frame.add(new Board());	
         frame.setTitle("2-D Test Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1200,800);// 365
+        frame.setSize(1200,365);// 800 for gravity test
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
     }
