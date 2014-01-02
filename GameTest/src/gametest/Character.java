@@ -18,9 +18,22 @@ public class Character
     ImageIcon left = new ImageIcon("C:/Users/thifofdeath/Documents/Game Test JAVA/test.png");
     ImageIcon jump = new ImageIcon("C:/Users/thifofdeath/Documents/Game Test JAVA/jump.png");
     ImageIcon jumprev = new ImageIcon("C:/Users/thifofdeath/Documents/Game Test JAVA/jumprev.png");
+     
+    int velX = 0;
+    int velY = 0;
+    
+    // Gravity ALWAYS GOES down
+    // But if you have a limit where Y stops, it will.
+    // Keep something like this
+    private float gravity = 0.05f;
+    private boolean falling = true;
+    private boolean jumping = false;
+    boolean bolgravity = true;
     
     int ammo = 25;
     static ArrayList bullets;
+    
+    boolean allow;
     
     public Character()
     {
@@ -49,19 +62,69 @@ public class Character
 
     public void fire()
     {
-        if (ammo > 0)
+    // If valueY > 0
+    // BulletY = valueY;
+    // Set valueY of bullet position the value of the valueY;
+        if (allow)
         {
-            ammo--;
-            //The v is from the board class, which corresponds to the character's
-            //position when it is jumping, resulting in the bullets being formed 
-            //at a higher position when the character is at the peak of its jump
-            Bullet a = new Bullet ((CharacterPos + 60), (Board.v + (154/2)), ("C:/Users/thifofdeath/Documents/Game Test JAVA/bullet.png"));
-            bullets.add(a);
+            if (ammo > 0)
+            {
+                ammo--;
+                //The v is from the board class, which corresponds to the character's
+                //position when it is jumping, resulting in the bullets being formed 
+                //at a higher position when the character is at the peak of its jump
+                
+                // CharacterPos + 63, where 63 = the length of the character which is 63 x 154
+                // And valueY + 154/2 shoots from the middle of the character which is why
+                // It is 154 / 2
+                Bullet a = new Bullet ((CharacterPos + 63), (valueY + (154/2)), ("C:/Users/thifofdeath/Documents/Game Test JAVA/bullet.png"));
+                bullets.add(a);
+                allow = false;
+            }
+        }
+    }
+    
+    public void jump()
+    {
+        if (moveY == 1)
+        {
+            if (valueY > 100)
+            {
+                valueY--;
+            }
+        }
+
+        if (moveY == 0)
+        {
+            gravity();
+        }
+       
+//        if (falling || jumping)
+//        {
+//            velY += gravity;
+//        }
+    }
+    
+    public void gravity()
+    {
+        if (bolgravity)
+        {
+            if (valueY <= 172)
+                {
+                    valueY++;
+                    if (valueY == 172)
+                    {
+                        valueY=172;
+                    }
+                }
         }
     }
    
     public void move()
     {
+        CharacterPos += velX;
+        valueY += velY;
+        
         if (moveX != -1)
         {
             if (CharacterPos + moveX <= 150)
@@ -76,9 +139,13 @@ public class Character
         }	
         else
 	{
-		if (CharacterPos + moveX >0)
+		if (CharacterPos + moveX > 0)
 		CharacterPos = CharacterPos + moveX;
-	} 		
+	}
+        if (moveY == 1)
+        {
+            
+        }
     }
     
         /* Moves Character only /*
@@ -131,6 +198,16 @@ public class Character
         return character;
     }
     
+    public boolean isJumping()
+    {
+        return jumping;
+    }
+    
+    public boolean isFalling()
+    {
+        return falling;
+    }
+    
     public void keyPressed(KeyEvent e)
     {
         int key = e.getKeyCode();
@@ -149,13 +226,15 @@ public class Character
         
         if (key == KeyEvent.VK_UP)
         {
-            moveY = 1;
             character = jump.getImage();
+            moveY = 1;
+            jump();
         }
         
         if (key == KeyEvent.VK_SPACE)
         {
             fire();
+            allow = true;
         }
 
     }
@@ -180,6 +259,7 @@ public class Character
         {
             moveY = 0;
             character = def.getImage();
+            jump();
         }
     }
 }

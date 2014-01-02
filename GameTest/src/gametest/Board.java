@@ -34,13 +34,14 @@ public class Board extends JPanel implements ActionListener, Runnable
         time.start();
         
         bul = new Bullet(350, 210, "C:/Users/thifofdeath/Documents/Game Test JAVA/bullet.png");
-        en = new Enemy(700, 200, "C:/Users/thifofdeath/Documents/Game Test JAVA/enemy.jpg");
-	en2 = new Enemy(700, 200, "C:/Users/thifofdeath/Documents/Game Test JAVA/enemy.jpg");
+        en = new Enemy(700, 200, "C:/Users/thifofdeath/Documents/Game Test JAVA/enemy.png");
+	en2 = new Enemy(700, 200, "C:/Users/thifofdeath/Documents/Game Test JAVA/enemy.png");
         
     }
             
     public void actionPerformed(ActionEvent e)
     {
+        p.jump();
         checkCollisions();
         ArrayList bullets = Character.getBullets();
         for (int w = 0; w < bullets.size(); w++)
@@ -83,17 +84,21 @@ public class Board extends JPanel implements ActionListener, Runnable
 		{
 			en.alive = false;
 			m.visible = false;
+                        lost = false;
 		}
 		else if (r2.intersects(m1)&& en2.isAlive())
 		{
 			en2.alive = false;
 			m.visible = false;
+                        lost = false;
 		}
 	}
 	
 	Rectangle d = p.getBounds();
-	if (d.intersects(r1) || d.intersects(r2))
+	if (d.intersects(r1) && en.alive == true || d.intersects(r2) && en2.alive == true)
+        {
 		lost = true;
+        }
 	
     }
     
@@ -118,6 +123,7 @@ public class Board extends JPanel implements ActionListener, Runnable
         {
             p.FrameHeightTerrain = 0;
         }
+        
         if ((p.getValueX() - 1210) % 2400 == 0)
         {            
             p.FrameLength = 0;
@@ -136,10 +142,12 @@ public class Board extends JPanel implements ActionListener, Runnable
             g2d.drawImage(img, 1200 - p.getFrameLength(), 0, null);
             g2d.drawImage(p.getImage(), p.CharacterPos, p.getValueY(), null);
         }
+        System.out.println(p.getValueY() + " " + p.getMoveY() + " " + p.getMoveX());
+        //if (p.getValueY() >)
        
         ArrayList bullets = Character.getBullets();
         for (int w = 0; w < bullets.size(); w++)
-        {
+        {   
             Bullet m = (Bullet) bullets.get(w);
             if (m.getVisible())
             g2d.drawImage(m.getImage(),m.getX(), m.getY(), null);
@@ -147,6 +155,7 @@ public class Board extends JPanel implements ActionListener, Runnable
         g2d.setFont(font);
         g2d.setColor(Color.BLUE);
         g2d.drawString("Ammo left: " + p.ammo, 500, 20);
+        
         if (p.valueX > 400)
         {
             if (en.isAlive() == true)
