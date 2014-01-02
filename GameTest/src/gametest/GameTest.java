@@ -2,7 +2,7 @@ package gametest;
 
 import javax.swing.*;
 
-public class GameTest 
+public class GameTest
 {
 
     public GameTest()

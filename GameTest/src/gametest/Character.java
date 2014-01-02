@@ -13,11 +13,13 @@ public class Character
     Image character;
     //boolean left, right;
     // Image Initializing
-    ImageIcon def = new ImageIcon("default.png");
-    ImageIcon right = new ImageIcon("dude.png");
-    ImageIcon left = new ImageIcon("test.png");
-    ImageIcon jump = new ImageIcon("jump.png");
-    ImageIcon jumprev = new ImageIcon("jumprev.png");
+    ImageIcon def = new ImageIcon(getClass().getResource("/images/default.png"));
+    ImageIcon right = new ImageIcon(getClass().getResource("/images/right.gif"));
+    ImageIcon left = new ImageIcon(getClass().getResource("/images/left.gif"));
+    ImageIcon jump = new ImageIcon(getClass().getResource("/images/jump.png"));
+    ImageIcon jumprev = new ImageIcon(getClass().getResource("/images/jumprev.png"));
+    
+    String bul = "/images/bullet.png";
      
     int velX = 0;
     int velY = 0;
@@ -26,6 +28,7 @@ public class Character
     // But if you have a limit where Y stops, it will.
     // Keep something like this
     private int gravity = 1;
+    // boolean heightdetect = true;
     private boolean falling = true;
     private boolean jumping = false;
     boolean bolgravity = true;
@@ -40,7 +43,7 @@ public class Character
     public Character()
     {
         // Integer Value Initializing
-        character = def.getImage();
+        character = right.getImage();
         CharacterPos = 150;
         
         valueX = 10;
@@ -67,8 +70,9 @@ public class Character
     // If valueY > 0
     // BulletY = valueY;
     // Set valueY of bullet position the value of the valueY;
-        if (allow)
-        {
+        //if (allow)
+//        if (moveX == 1 || moveX == 0)
+//        {
             if (ammo > 0)
             {
                 ammo--;
@@ -79,27 +83,35 @@ public class Character
                 // CharacterPos + 63, where 63 = the length of the character which is 63 x 154
                 // And valueY + 154/2 shoots from the middle of the character which is why
                 // It is 154 / 2
-                Bullet a = new Bullet ((CharacterPos + 63), (valueY + (154/2)), ("bullet.png"));
+                Bullet a = new Bullet ((CharacterPos + 63), (valueY + (154/2)), "/images/bullet.png");
                 bullets.add(a);
-                allow = false;
+               // allow = false;
             }
-        }
     }
+//        else 
+//        {
+//            if (ammo > 0)
+//            {
+//                ammo--;
+//                Bullet a = new Bullet ((CharacterPos - 63), (valueY + (154/2)), bul);
+//                bullets.add(a);    
+//            }
+//        }
     
     public void jump()
     {
         if (moveY == 1)
         {
-            if (valueY > 50)
+            if (valueY > 10)
             {
                 valueY -= gravity;
             }
         }
-
         if (moveY == 0)
         {
             gravity();
         }
+
         //if (falling || jumping)
         //{
         //  velY += gravity;
@@ -111,18 +123,18 @@ public class Character
         if (bolgravity)
         {
             if (valueY <= 171)
+            {
+                valueY += gravity;
+                // if (valueY == (172/3))
+                // {
+                //     gravity = 2;
+                // }
+                if (valueY >= 172)
                 {
-                    valueY += gravity;
-                    // if (valueY == (172/3))
-                    // {
-                    //     gravity = 2;
-                    // }
-                    if (valueY >= 172)
-                    {
-                        valueY = 172;
-                        gravity = 1;
-                    }
+                    valueY = 172;
+                    gravity = 1;
                 }
+            }
         }
     }
    
@@ -163,6 +175,10 @@ public class Character
             valueX += moveX;
         }
         */
+//    public String getBullet()
+//    {
+//        return bul;
+//    }
     
     public int getValueX()
     {
@@ -240,9 +256,14 @@ public class Character
         if (key == KeyEvent.VK_SPACE)
         {
             fire();
-            allow = true;
+            //allow = true;
         }
-
+        
+        if (key == KeyEvent.VK_R)
+        {
+            // No timer for now
+            ammo = 25;
+        }
     }
     
     public void keyReleased(KeyEvent e)
@@ -252,20 +273,20 @@ public class Character
         if (key == KeyEvent.VK_LEFT)
         {
             moveX = 0;
-            character = def.getImage();
+            character = left.getImage();
         }
         
         if (key == KeyEvent.VK_RIGHT)
         {
             moveX = 0;
-            character = def.getImage();
+            character = right.getImage();
         }
         
         if (key == KeyEvent.VK_UP)
         {
             moveY = 0;
             character = def.getImage();
-            jump();
+            //heightdetect = true;
         }
     }
 }

@@ -5,15 +5,16 @@ import javax.swing.*;
 
 public class Enemy 
 {
+    Character p = new Character();
     int x, y;
     Image img;
     boolean alive = true;
     
     public Enemy(int startX, int startY, String image)
     {
-        x = startX;
+        x = startX + 800;
         y = startY;
-        ImageIcon Enemy = new ImageIcon(image);
+        ImageIcon Enemy = new ImageIcon(getClass().getResource(image));
         img = Enemy.getImage();
     }
     
@@ -37,10 +38,12 @@ public class Enemy
         return alive;
     }
     
-    public void move(int dx, int left)
+    public void move(int moveX, int CharacterPosition)
     {
-        if (dx == 1 && !((left + dx )< 150)) //Added this to only move enemy 
-        x = x - dx;                          // when character moves forward (not back)
+        if (moveX == 1 && !((CharacterPosition + moveX )< 150)) //Added this to only move enemy 
+        {                                    // when character moves forward (not back)
+            x = x - moveX;
+        } 
     }
 
     public Rectangle getBounds()
