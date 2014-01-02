@@ -2,6 +2,10 @@ JPG and PNG files are pictures attributed to the class Character and Board.
 You will have to reallocate because i'm not sure how to make the directory the correct one. ._.
 
 
+1.3
+WIP spawn all the time.
+Polished the code (comments still remaining for myself)
+
 1.2 
 Jumping and gravity enabled. (Simple algorythm)
 Shooting comes from the middle of the Y coordinate.
