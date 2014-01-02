@@ -18,10 +18,10 @@ public class Board extends JPanel implements ActionListener, Runnable
     static int v = 172;
     
     boolean lost = false;
-    
     boolean k = false;
     
     static Font font = new Font("SanSerif", Font.BOLD, 24);
+    static Font font1 = new Font("SanSerif", Font.BOLD, 60);
     
     public Board()
     {
@@ -142,7 +142,8 @@ public class Board extends JPanel implements ActionListener, Runnable
             g2d.drawImage(img, 1200 - p.getFrameLength(), 0, null);
             g2d.drawImage(p.getImage(), p.CharacterPos, p.getValueY(), null);
         }
-        System.out.println(p.getValueY() + " " + p.getMoveY() + " " + p.getMoveX());
+        System.out.println(p.getValueY() + " " + p.getValueX() + " " + p.getMoveY() + " " + p.getMoveX()
+                + " " + " ");
         //if (p.getValueY() >)
        
         ArrayList bullets = Character.getBullets();

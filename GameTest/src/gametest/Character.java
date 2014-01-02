@@ -25,7 +25,7 @@ public class Character
     // Gravity ALWAYS GOES down
     // But if you have a limit where Y stops, it will.
     // Keep something like this
-    private float gravity = 0.05f;
+    private int gravity = 1;
     private boolean falling = true;
     private boolean jumping = false;
     boolean bolgravity = true;
@@ -34,6 +34,8 @@ public class Character
     static ArrayList bullets;
     
     boolean allow;
+    
+    // int health = 100;
     
     public Character()
     {
@@ -88,9 +90,9 @@ public class Character
     {
         if (moveY == 1)
         {
-            if (valueY > 100)
+            if (valueY > 50)
             {
-                valueY--;
+                valueY -= gravity;
             }
         }
 
@@ -98,23 +100,27 @@ public class Character
         {
             gravity();
         }
-       
-//        if (falling || jumping)
-//        {
-//            velY += gravity;
-//        }
+        //if (falling || jumping)
+        //{
+        //  velY += gravity;
+        //}
     }
     
     public void gravity()
     {
         if (bolgravity)
         {
-            if (valueY <= 172)
+            if (valueY <= 171)
                 {
-                    valueY++;
-                    if (valueY == 172)
+                    valueY += gravity;
+                    // if (valueY == (172/3))
+                    // {
+                    //     gravity = 2;
+                    // }
+                    if (valueY >= 172)
                     {
-                        valueY=172;
+                        valueY = 172;
+                        gravity = 1;
                     }
                 }
         }
@@ -139,8 +145,8 @@ public class Character
         }	
         else
 	{
-		if (CharacterPos + moveX > 0)
-		CharacterPos = CharacterPos + moveX;
+            if (CharacterPos + moveX > 0)
+            CharacterPos = CharacterPos + moveX;
 	}
         if (moveY == 1)
         {

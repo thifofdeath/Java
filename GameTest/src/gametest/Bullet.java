@@ -5,7 +5,8 @@ import javax.swing.*;
 
 public class Bullet 
 {
-    int x, y;
+    Character c = new Character();
+    static int x, y;
     Image img;
     boolean visible;
     
@@ -23,7 +24,7 @@ public class Bullet
         return new Rectangle(x,y, 31, 8);
     }
     
-    public int getX()
+    static int getX()
     {
         return x;
     }
@@ -46,10 +47,10 @@ public class Bullet
     public void move()
     {
         x = x + 2;
-        if (x > 1200)
+        if (x > 700)
         {
             visible = false;
-        }
+        }  
     }
 
     public void setVisible(boolean isVisible)
