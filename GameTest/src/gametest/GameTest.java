@@ -25,6 +25,8 @@ public class GameTest
 // A Concept like this ish
 // Y++ IF  NEW X > PREVIOUS X value
 
+// Ammo = 0 if no gun pickup // Make Gun inventory top right or next to ammo
+
 // Entire new class where you declare/initialize images and give instructions on how to.
 
 // Car Road rage game

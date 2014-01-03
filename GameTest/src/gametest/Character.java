@@ -75,7 +75,7 @@ public class Character
     // This is here because of the arm. Holding the gun
     public Rectangle getBounds2()
     {
-        return new Rectangle(CharacterPos + 62, valueY + 24, 62, 24);
+        return new Rectangle(CharacterPos + 61, valueY + 26, 62, 26);
     }
 
     public static ArrayList getBullets()
@@ -276,8 +276,15 @@ public class Character
         
         if (key == KeyEvent.VK_UP)
         {
-            character = jump.getImage();
             moveY = 1;
+            if (!weaponswitch1)
+            {
+                character = right.getImage();
+            }
+            else
+            {
+                character = weaponhold.getImage();
+            }
             jump();
         }
         
@@ -331,7 +338,7 @@ public class Character
         if (key == KeyEvent.VK_UP)
         {
             moveY = 0;
-            character = def.getImage();
+            character = right.getImage();
             //heightdetect = true;
         }
     }
