@@ -48,7 +48,7 @@ public class Enemy
 
     public Rectangle getBounds()
     {
-        return new Rectangle(x,y, 73, 78);
+        return new Rectangle(x,y, 73, 68);
     }
     
 }

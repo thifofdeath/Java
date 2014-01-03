@@ -11,13 +11,15 @@ public class Character
     // Declarations
     int valueX, valueY, moveX, moveY, FrameLength, FrameHeightTerrain, CharacterPos ;
     Image character;
+    
     //boolean left, right;
     // Image Initializing
     ImageIcon def = new ImageIcon(getClass().getResource("/images/default.png"));
-    ImageIcon right = new ImageIcon(getClass().getResource("/images/right.gif"));
-    ImageIcon left = new ImageIcon(getClass().getResource("/images/left.gif"));
+    ImageIcon right = new ImageIcon(getClass().getResource("/images/right.png"));
+    ImageIcon left = new ImageIcon(getClass().getResource("/images/left.png"));
     ImageIcon jump = new ImageIcon(getClass().getResource("/images/jump.png"));
     ImageIcon jumprev = new ImageIcon(getClass().getResource("/images/jumprev.png"));
+    ImageIcon weaponhold = new ImageIcon(getClass().getResource("/images/pistolhold.png"));
     
     String bul = "/images/bullet.png";
      
@@ -37,17 +39,26 @@ public class Character
     static ArrayList bullets;
     
     boolean allow;
+    boolean weaponpickup1 = false;
+    boolean weaponswitch1 = false;
     
     // int health = 100;
     
     public Character()
     {
         // Integer Value Initializing
-        character = right.getImage();
+        if (!weaponswitch1)
+        {
+            character = right.getImage();
+        }
+        else
+        {
+            character = weaponhold.getImage();
+        }
         CharacterPos = 150;
         
         valueX = 10;
-        valueY = 172;
+        valueY = 140;
         
         FrameLength = 1200;
         FrameHeightTerrain = 0;
@@ -57,8 +68,15 @@ public class Character
     
     public Rectangle getBounds()
     {
-        return new Rectangle(CharacterPos, valueY, 63, 154);
-    }  
+        return new Rectangle(CharacterPos, valueY, 74, 186);
+         //return new Rectangle(CharacterPos, valueY, 63, 154);
+    }
+    
+    // This is here because of the arm. Holding the gun
+    public Rectangle getBounds2()
+    {
+        return new Rectangle(CharacterPos + 62, valueY + 24, 62, 24);
+    }
 
     public static ArrayList getBullets()
     {
@@ -83,7 +101,8 @@ public class Character
                 // CharacterPos + 63, where 63 = the length of the character which is 63 x 154
                 // And valueY + 154/2 shoots from the middle of the character which is why
                 // It is 154 / 2
-                Bullet a = new Bullet ((CharacterPos + 63), (valueY + (154/2)), "/images/bullet.png");
+                // Old CharacterPos + 63 (length of character), valueY + (154 / 2) to shoot from middle
+                Bullet a = new Bullet ((CharacterPos + 136), (valueY + (186-120)), "/images/bullet.png");
                 bullets.add(a);
                // allow = false;
             }
@@ -102,7 +121,7 @@ public class Character
     {
         if (moveY == 1)
         {
-            if (valueY > 10)
+            if (valueY > 0)
             {
                 valueY -= gravity;
             }
@@ -122,16 +141,16 @@ public class Character
     {
         if (bolgravity)
         {
-            if (valueY <= 171)
+            if (valueY <= 140)
             {
                 valueY += gravity;
                 // if (valueY == (172/3))
                 // {
                 //     gravity = 2;
                 // }
-                if (valueY >= 172)
+                if (valueY >= 140)
                 {
-                    valueY = 172;
+                    valueY = 140;
                     gravity = 1;
                 }
             }
@@ -145,8 +164,10 @@ public class Character
         
         if (moveX != -1)
         {
-            if (CharacterPos + moveX <= 150)
+            if (CharacterPos + moveX <= 150) // Character Screen Limit
+            {
                 CharacterPos += moveX;
+            }
             // Moves Background instead of character
             else 
             {
@@ -243,7 +264,14 @@ public class Character
         if (key == KeyEvent.VK_RIGHT)
         {
             moveX = 1;
-            character = right.getImage();
+            if (!weaponswitch1)
+            {
+                character = right.getImage();
+            }
+            else
+            {
+                character = weaponhold.getImage();
+            }
         }
         
         if (key == KeyEvent.VK_UP)
@@ -255,7 +283,10 @@ public class Character
         
         if (key == KeyEvent.VK_SPACE)
         {
-            fire();
+            if (weaponpickup1)
+            {
+                fire();
+            }
             //allow = true;
         }
         
@@ -263,6 +294,14 @@ public class Character
         {
             // No timer for now
             ammo = 25;
+        }
+        
+        if (key == KeyEvent.VK_1)
+        {
+            if (weaponpickup1)
+            {
+                weaponswitch1 = true;
+            }
         }
     }
     
@@ -279,7 +318,14 @@ public class Character
         if (key == KeyEvent.VK_RIGHT)
         {
             moveX = 0;
-            character = right.getImage();
+            if (!weaponswitch1)
+            {
+                character = right.getImage();
+            }
+            else
+            {
+                character = weaponhold.getImage();
+            }
         }
         
         if (key == KeyEvent.VK_UP)

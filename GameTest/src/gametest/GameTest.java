@@ -21,3 +21,10 @@ public class GameTest
 	new GameTest();
     }
 }
+// Sphere rectangle or sphere, when intersects +1 Y and have a loop so it goes escalating
+// A Concept like this ish
+// Y++ IF  NEW X > PREVIOUS X value
+
+// Entire new class where you declare/initialize images and give instructions on how to.
+
+// Car Road rage game

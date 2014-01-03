@@ -6,13 +6,12 @@ import javax.swing.*;
 public class Bullet 
 {
     Character p = new Character();
-    static int x, y;
+    int x, y;
     Image img;
     boolean visible;
     
     public Bullet(int startX, int startY, String image)
     {
-        
         x = startX;
         y = startY;
         ImageIcon newBullet = new ImageIcon(getClass().getResource(image));
@@ -20,7 +19,7 @@ public class Bullet
         visible = true;
     }
     
-    static int getX()
+    public int getX()
     {
         return x;
     }
