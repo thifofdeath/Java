@@ -1,6 +1,15 @@
-JPG and PNG files are pictures attributed to the class Character and Board.
-You will have to reallocate because i'm not sure how to make the directory the correct one. ._.
+Patch notes ._.
 
+2.0 
+Enemy spawn everytime you kill them.
+Whether or not the first or second one is killed first.
+Added gun holding sprite, bullets from gun.
+Added collision detection from the hand and gun.
+Added new sprite for moving.
+Added weapon holder to get weapon.
+Added Relod with the "R" key.
+Added selection of weapon with the "1" key.
+Added GAME OVER text when you lose.
 
 1.3
 WIP spawn all the time.
