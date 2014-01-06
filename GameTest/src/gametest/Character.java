@@ -22,7 +22,7 @@ public class Character
     ImageIcon weaponhold = new ImageIcon(getClass().getResource("/images/pistolhold.png"));
     
     String bul = "/images/bullet.png";
-     
+    
     int velX = 0;
     int velY = 0;
     
@@ -32,6 +32,7 @@ public class Character
     private int gravity = 1;
     // boolean heightdetect = true;
     private boolean falling = true;
+    
     private boolean jumping = false;
     boolean bolgravity = true;
     
@@ -288,7 +289,7 @@ public class Character
             jump();
         }
         
-        if (key == KeyEvent.VK_SPACE)
+        if (key == KeyEvent.VK_SPACE && !jumping) 
         {
             if (weaponpickup1)
             {

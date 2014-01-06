@@ -28,7 +28,7 @@ public class Board extends JPanel implements ActionListener //, Runnable
     boolean reviver = true;
     int generation = 2;
     int count=0;
-   
+    
     // int max = 1200;
     // int range = (max) + 1;
 
