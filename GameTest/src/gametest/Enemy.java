@@ -40,7 +40,7 @@ public class Enemy
     
     public void move(int moveX, int CharacterPosition)
     {
-        if (moveX == 1 && !((CharacterPosition + moveX )< 150)) //Added this to only move enemy 
+        if (moveX == 3 && !((CharacterPosition + moveX )< 400)) //Added this to only move enemy 
         {                                    // when character moves forward (not back)
             x = x - moveX;
         } 
@@ -48,7 +48,20 @@ public class Enemy
 
     public Rectangle getBounds()
     {
-        return new Rectangle(x,y, 73, 68);
+        return new Rectangle(x, y, 68, 68);
     }
+//    public Rectangle getBounds()
+//    {
+//        return new Rectangle(x,y, 142, 68);
+//    }
+//    
+//    public Rectangle getBounds2()
+//    {
+//        return new Rectangle(x+46, y+36, 141, 93);
+//    }
+//    public Rectangle getBounds2(int valuex, int valuey, int posx, int posy)
+//    {
+//        return new Rectangle(valuex, valuey, posx , posy);
+//    }
     
 }

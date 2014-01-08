@@ -11,6 +11,7 @@ public class Character
     // Declarations
     int valueX, valueY, moveX, moveY, FrameLength, FrameHeightTerrain, CharacterPos ;
     Image character;
+    Board b;
     
     //boolean left, right;
     // Image Initializing
@@ -20,6 +21,9 @@ public class Character
     ImageIcon jump = new ImageIcon(getClass().getResource("/images/jump.png"));
     ImageIcon jumprev = new ImageIcon(getClass().getResource("/images/jumprev.png"));
     ImageIcon weaponhold = new ImageIcon(getClass().getResource("/images/pistolhold.png"));
+    ImageIcon pistol1 = new ImageIcon(getClass().getResource("/images/pistol1a.png"));
+    ImageIcon pistol2 = new ImageIcon(getClass().getResource("/images/pistol1b.png"));
+    ImageIcon crouch = new ImageIcon(getClass().getResource(""));
     
     String bul = "/images/bullet.png";
     
@@ -29,21 +33,24 @@ public class Character
     // Gravity ALWAYS GOES down
     // But if you have a limit where Y stops, it will.
     // Keep something like this
-    private int gravity = 1;
+    private int gravity = 15;
     // boolean heightdetect = true;
     private boolean falling = true;
-    
+    public double counter2 = 4;
     private boolean jumping = false;
     boolean bolgravity = true;
     
-    int ammo = 25;
+    int ammo = 0;
     static ArrayList bullets;
     
     boolean allow;
     boolean weaponpickup1 = false;
     boolean weaponswitch1 = false;
     
-    // int health = 100;
+    boolean upgrade1 = false;
+    boolean upgrade2 = false;
+    
+    int health = 100;
     
     public Character()
     {
@@ -56,27 +63,28 @@ public class Character
         {
             character = weaponhold.getImage();
         }
+        
         CharacterPos = 150;
         
         valueX = 10;
-        valueY = 140;
+        valueY = 550;
         
         FrameLength = 1200;
         FrameHeightTerrain = 0;
         
         bullets = new ArrayList();
     }
-    
-    public Rectangle getBounds()
+    // This is the declare new rectangle for arms, weapons, etc
+    public Rectangle getBounds(int x, int y, int posx, int posy)
     {
-        return new Rectangle(CharacterPos, valueY, 74, 186);
+        return new Rectangle(x, y, posx, posy);
          //return new Rectangle(CharacterPos, valueY, 63, 154);
     }
     
-    // This is here because of the arm. Holding the gun
-    public Rectangle getBounds2()
+    // This is to always have the body boundary
+    public Rectangle defBody()
     {
-        return new Rectangle(CharacterPos + 61, valueY + 26, 62, 26);
+        return new Rectangle(CharacterPos, valueY, 74, 186);
     }
 
     public static ArrayList getBullets()
@@ -103,9 +111,9 @@ public class Character
                 // And valueY + 154/2 shoots from the middle of the character which is why
                 // It is 154 / 2
                 // Old CharacterPos + 63 (length of character), valueY + (154 / 2) to shoot from middle
-                Bullet a = new Bullet ((CharacterPos + 136), (valueY + (186-120)), "/images/bullet.png");
+                Bullet a = new Bullet ((CharacterPos + 136), (valueY + (186-115)), "/images/bullet.png");
                 bullets.add(a);
-               // allow = false;
+                // allow = false;
             }
     }
 //        else 
@@ -120,11 +128,20 @@ public class Character
     
     public void jump()
     {
-        if (moveY == 1)
+        if (moveY == 3)
         {
-            if (valueY > 0)
+            if (valueY > 200)
             {
-                valueY -= gravity;
+                counter2+= 0.05;
+                valueY += (int)((Math.sin(counter2) + Math.cos(counter2)) * 10);
+                if (counter2 >= 7)
+                {
+                    counter2=4;
+                }
+                if (valueY >= 550)
+                {
+                    valueY=550;
+                }
             }
         }
         if (moveY == 0)
@@ -142,16 +159,16 @@ public class Character
     {
         if (bolgravity)
         {
-            if (valueY <= 140)
+            if (valueY <= 550)
             {
-                valueY += gravity;
+                valueY += 10;
                 // if (valueY == (172/3))
                 // {
                 //     gravity = 2;
                 // }
-                if (valueY >= 140)
+                if (valueY >= 550)
                 {
-                    valueY = 140;
+                    valueY = 550;
                     gravity = 1;
                 }
             }
@@ -165,7 +182,7 @@ public class Character
         
         if (moveX != -1)
         {
-            if (CharacterPos + moveX <= 150) // Character Screen Limit
+            if (CharacterPos + moveX <= 400) // Character Screen Limit
             {
                 CharacterPos += moveX;
             }
@@ -182,7 +199,11 @@ public class Character
             if (CharacterPos + moveX > 0)
             CharacterPos = CharacterPos + moveX;
 	}
-        if (moveY == 1)
+        if (CharacterPos < 0)
+        {
+            CharacterPos = 0;
+        }
+        if (moveY == 3)
         {
             
         }
@@ -258,13 +279,13 @@ public class Character
         
         if (key == KeyEvent.VK_LEFT)
         {
-            moveX = -1;
+            moveX = -3;
             character = left.getImage();
         }
         
         if (key == KeyEvent.VK_RIGHT)
         {
-            moveX = 1;
+            moveX = 3;
             if (!weaponswitch1)
             {
                 character = right.getImage();
@@ -277,7 +298,7 @@ public class Character
         
         if (key == KeyEvent.VK_UP)
         {
-            moveY = 1;
+            moveY = 3;
             if (!weaponswitch1)
             {
                 character = right.getImage();
@@ -287,6 +308,17 @@ public class Character
                 character = weaponhold.getImage();
             }
             jump();
+        }
+        
+        
+        if (key == KeyEvent.VK_DOWN)
+        {
+            
+        }
+        
+        if (key == MouseEvent.MOUSE_CLICKED)
+        {
+            
         }
         
         if (key == KeyEvent.VK_SPACE && !jumping) 
@@ -311,6 +343,12 @@ public class Character
                 weaponswitch1 = true;
             }
         }
+        
+        if (key == KeyEvent.VK_P)
+        {
+            new GameTest();
+        }
+        
     }
     
     public void keyReleased(KeyEvent e)
@@ -339,7 +377,7 @@ public class Character
         if (key == KeyEvent.VK_UP)
         {
             moveY = 0;
-            character = right.getImage();
+            character = weaponhold.getImage();
             //heightdetect = true;
         }
     }

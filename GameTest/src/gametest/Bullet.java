@@ -46,13 +46,11 @@ public class Bullet
     
     public void move()
     {
-        
-            x = x + 2;
-            if (x > 800)
-            {
-                visible = false;
-            }
-        
+        x = x + 3;
+        if (x > 1200)
+        {
+            visible = false;
+        }
         // Fail attempt to make shoot left
 //        else 
 //        {

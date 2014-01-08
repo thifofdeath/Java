@@ -18,7 +18,6 @@ public class Weapon
         ImageIcon weapon1 = new ImageIcon(getClass().getResource(image));
         img = weapon1.getImage();       
     }
-
     
     public int getX()
     {
