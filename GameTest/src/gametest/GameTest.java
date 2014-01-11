@@ -11,7 +11,6 @@ public class GameTest
     
     public GameTest()
     {
-        
         if (value <= 0)
         {
             menu.add(new MainMenu());

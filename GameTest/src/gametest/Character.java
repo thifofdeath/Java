@@ -30,7 +30,19 @@ public class Character
     ImageIcon pistol2 = new ImageIcon(getClass().getResource("/images/pistol1b.png"));
     ImageIcon crouch = new ImageIcon(getClass().getResource(""));
     
+    ImageIcon chica = new ImageIcon(getClass().getResource("/images/SpriteIdle.png"));
+    ImageIcon chica1 = new ImageIcon(getClass().getResource("/images/SpriteWalking1.png"));
+    ImageIcon chica2 = new ImageIcon(getClass().getResource("/images/SpriteWalking2.png"));
+    ImageIcon chica3 = new ImageIcon(getClass().getResource("/images/SpriteWalking3.png"));
+    ImageIcon chica4 = new ImageIcon(getClass().getResource("/images/SpriteWalking4.png"));
+    static int sprite=0;
+    
     String bul = "/images/bullet.png";
+    
+    // X AXIS
+    int MOVESPEED = 2;
+    // Y AXIS
+    int JUMPSPEED = 3;
     
     int velX = 0;
     int velY = 0;
@@ -48,6 +60,9 @@ public class Character
     int ammo = 0;
     static ArrayList bullets;
     
+    boolean male=false;
+    boolean female=true;
+    
     boolean allow;
     boolean weaponpickup1 = false;
     boolean weaponswitch1 = false;
@@ -57,56 +72,49 @@ public class Character
     
     int health = 100;
     
-    private CharacterF chica;
+//    private CharacterF chica;
     private BufferedImage[] idle;
-    private BufferedImage[] walking;
+//    private BufferedImage[] walking;
     private boolean facingLeft;
+    Rectangle bodyBounds;
+    int varY;
     
     public Character()
     {
         // Integer Value Initializing
-        if (!weaponswitch1)
+        if (male)
         {
-            character = right.getImage();
+            if (!weaponswitch1)
+            {
+                character = right.getImage();
+            }
+            else
+            {
+                character = weaponhold.getImage();
+            }
         }
-        else
+        else if (female)
         {
-            character = weaponhold.getImage();
+            character = chica.getImage();
         }
         
         CharacterPos = 150;
-        
+
         valueX = 10;
-        valueY = 550;
+        if (male)
+        {
+            valueY = 550;
+        }
+        else if (female)
+        {
+            valueY = 585;
+        }
         
         FrameLength = 1200;
         FrameHeightTerrain = 0;
         
         bullets = new ArrayList();
-//        
-//        try 
-//        {
-//            idle = new BufferedImage[1];
-//            walking = new BufferedImage[4];
-//            
-//            idle[0] = ImageIO.read(new File("/images/SpriteIdle.gif"));
-//            
-//            BufferedImage image = ImageIO.read(new File("/images/walkingSprite.gif"));
-//            for(int i = 0; i < walking.length; i++)
-//            {
-//                for(int j = 0; j < walking.length; j++)
-//                {
-//                    walking[i] = image.getSubimage(i + 80, j + 140, 82, 140);
-//                }
-//            }
-//        }
-//        catch(Exception e)
-//        {
-//            e.printStackTrace();
-//        }      
-//        
-//        chica = new CharacterF();
-//        facingLeft = false;
+
     }
     // This is the declare new rectangle for arms, weapons, etc
     public Rectangle getBounds(int x, int y, int posx, int posy)
@@ -118,7 +126,15 @@ public class Character
     // This is to always have the body boundary
     public Rectangle defBody()
     {
-        return new Rectangle(CharacterPos, valueY, 74, 186);
+        if (male)
+        {
+            bodyBounds = new Rectangle (CharacterPos, valueY, 74, 186);
+        }
+        else if (female)
+        {
+            bodyBounds = new Rectangle(CharacterPos, valueY, 83, 149);
+        }
+        return bodyBounds;
     }
 
     public static ArrayList getBullets()
@@ -162,7 +178,16 @@ public class Character
     
     public void jump()
     {
-        if (moveY == 3)
+        if (male)
+        {
+            varY = 550;
+        }
+        else if (female)
+        {
+            varY = 585;
+        }
+        
+        if (moveY == JUMPSPEED)
         {
             if (valueY > 200)
             {
@@ -172,9 +197,9 @@ public class Character
                 {
                     counter2=4;
                 }
-                if (valueY >= 550)
+                if (valueY >= varY)
                 {
-                    valueY=550;
+                    valueY=varY;
                 }
             }
         }
@@ -191,18 +216,27 @@ public class Character
     
     public void gravity()
     {
+        if (male)
+        {
+            varY = 550;
+        }
+        else if (female)
+        {
+            varY = 585;
+        }
+         
         if (bolgravity)
         {
-            if (valueY <= 550)
+            if (valueY <= varY)
             {
                 valueY += 10;
                 // if (valueY == (172/3))
                 // {
                 //     gravity = 2;
                 // }
-                if (valueY >= 550)
+                if (valueY >= varY)
                 {
-                    valueY = 550;
+                    valueY = varY;
                     gravity = 1;
                 }
             }
@@ -239,7 +273,7 @@ public class Character
         {
             CharacterPos = 0;
         }
-        if (moveY == 3)
+        if (moveY == JUMPSPEED)
         {
             
         }
@@ -315,38 +349,73 @@ public class Character
         
         if (key == KeyEvent.VK_LEFT)
         {
-            moveX = -3;
-            character = left.getImage();
+            moveX = -MOVESPEED;
+            if (male)
+            {
+                character = left.getImage();
+            }
+            else if (female)
+            {
+                character = chica.getImage();
+            }
         }
         
         if (key == KeyEvent.VK_RIGHT)
         {
-            moveX = 3;
-//            chica.setFrames(walking);
-//            chica.setDelay(100);
-            
-            if (!weaponswitch1)
+            moveX = MOVESPEED;
+            sprite++;
+            if (male)
             {
-                character = right.getImage();
+                if (!weaponswitch1)
+                {
+                    character = right.getImage();
+                }
+                else if (weaponswitch1)
+                {
+                    character = weaponhold.getImage();
+                }
             }
-            else
+            if (female)
             {
-                character = weaponhold.getImage();
+                if (sprite <= 5)
+                {
+                    character = chica1.getImage();
+                }
+                else if (sprite > 6 && sprite < 9)
+                {
+                    character = chica2.getImage();
+                }
+                else if (sprite > 10 && sprite < 13)
+                {
+                    character = chica3.getImage();
+                }
+                else if (sprite > 14 && sprite < 17)
+                {
+                    character = chica4.getImage();
+                    sprite=0;
+                }
             }
         }
         
         if (key == KeyEvent.VK_UP)
         {
-            moveY = 3;
-            if (!weaponswitch1)
+            moveY = JUMPSPEED;
+            if (male)
             {
-                character = right.getImage();
+                if (!weaponswitch1)
+                {
+                    character = right.getImage();
+                }
+                else
+                {
+                    character = weaponhold.getImage();
+                }
             }
-            else
+            else if (female)
             {
-                character = weaponhold.getImage();
+                character = chica.getImage();
             }
-            jump();
+                jump();
         }
         
         
@@ -362,9 +431,16 @@ public class Character
         
         if (key == KeyEvent.VK_SPACE && !jumping) 
         {
-            if (weaponpickup1)
+            if (male)
             {
-                fire();
+                if (weaponpickup1)
+                {
+                    fire();
+                }
+            }
+            else if (female)
+            {
+                character = chica.getImage();
             }
             //allow = true;
         }
@@ -377,9 +453,16 @@ public class Character
         
         if (key == KeyEvent.VK_1)
         {
-            if (weaponpickup1)
+            if (male)
             {
-                weaponswitch1 = true;
+                if (weaponpickup1)
+                {
+                    weaponswitch1 = true;
+                }
+            }
+            else if (female)
+            {
+                character = chica.getImage();
             }
         }
         
@@ -400,26 +483,47 @@ public class Character
         if (key == KeyEvent.VK_LEFT)
         {
             moveX = 0;
-            character = left.getImage();
+            if (male)
+            {
+                character = left.getImage();
+            }
+            else if (female)
+            {
+                character = chica.getImage();
+            }
         }
         
         if (key == KeyEvent.VK_RIGHT)
         {
             moveX = 0;
-            if (!weaponswitch1)
+            if (male)
             {
-                character = right.getImage();
+                if (!weaponswitch1)
+                {
+                    character = right.getImage();
+                }
+                else
+                {
+                    character = weaponhold.getImage();
+                }
             }
-            else
+            else if (female)
             {
-                character = weaponhold.getImage();
+                character = chica.getImage();
             }
         }
         
         if (key == KeyEvent.VK_UP)
         {
             moveY = 0;
-            character = weaponhold.getImage();
+            if (male)
+            {
+                character = weaponhold.getImage();
+            }
+            else if (female)
+            {
+                character = chica.getImage();
+            }
             //heightdetect = true;
         }
     }
