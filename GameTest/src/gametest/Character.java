@@ -5,6 +5,9 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.awt.image.*;
+import javax.imageio.*;
+import java.io.*;
 
 public class Character 
 {
@@ -12,6 +15,8 @@ public class Character
     int valueX, valueY, moveX, moveY, FrameLength, FrameHeightTerrain, CharacterPos ;
     Image character;
     Board b;
+    GameTest gt;
+    MainMenu m;
     
     //boolean left, right;
     // Image Initializing
@@ -52,6 +57,11 @@ public class Character
     
     int health = 100;
     
+    private CharacterF chica;
+    private BufferedImage[] idle;
+    private BufferedImage[] walking;
+    private boolean facingLeft;
+    
     public Character()
     {
         // Integer Value Initializing
@@ -73,6 +83,30 @@ public class Character
         FrameHeightTerrain = 0;
         
         bullets = new ArrayList();
+//        
+//        try 
+//        {
+//            idle = new BufferedImage[1];
+//            walking = new BufferedImage[4];
+//            
+//            idle[0] = ImageIO.read(new File("/images/SpriteIdle.gif"));
+//            
+//            BufferedImage image = ImageIO.read(new File("/images/walkingSprite.gif"));
+//            for(int i = 0; i < walking.length; i++)
+//            {
+//                for(int j = 0; j < walking.length; j++)
+//                {
+//                    walking[i] = image.getSubimage(i + 80, j + 140, 82, 140);
+//                }
+//            }
+//        }
+//        catch(Exception e)
+//        {
+//            e.printStackTrace();
+//        }      
+//        
+//        chica = new CharacterF();
+//        facingLeft = false;
     }
     // This is the declare new rectangle for arms, weapons, etc
     public Rectangle getBounds(int x, int y, int posx, int posy)
@@ -197,7 +231,9 @@ public class Character
         else
 	{
             if (CharacterPos + moveX > 0)
-            CharacterPos = CharacterPos + moveX;
+            {
+                CharacterPos = CharacterPos + moveX;
+            }
 	}
         if (CharacterPos < 0)
         {
@@ -272,7 +308,7 @@ public class Character
     {
         return falling;
     }
-    
+
     public void keyPressed(KeyEvent e)
     {
         int key = e.getKeyCode();
@@ -286,6 +322,9 @@ public class Character
         if (key == KeyEvent.VK_RIGHT)
         {
             moveX = 3;
+//            chica.setFrames(walking);
+//            chica.setDelay(100);
+            
             if (!weaponswitch1)
             {
                 character = right.getImage();
@@ -315,11 +354,11 @@ public class Character
         {
             
         }
-        
-        if (key == MouseEvent.MOUSE_CLICKED)
-        {
-            
-        }
+//        
+//        if (key == MouseEvent.MOUSE_CLICKED)
+//        {
+//           
+//        }
         
         if (key == KeyEvent.VK_SPACE && !jumping) 
         {
@@ -346,10 +385,13 @@ public class Character
         
         if (key == KeyEvent.VK_P)
         {
+            gt.frame.dispose();
+            gt.value = 0;
+            m.newgame = false;
             new GameTest();
         }
-        
     }
+    
     
     public void keyReleased(KeyEvent e)
     {

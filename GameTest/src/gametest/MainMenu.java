@@ -9,12 +9,15 @@ public class MainMenu extends JPanel implements ActionListener
     GameTest gt;
     Timer time;
     Image img;
-    
-    boolean newgame = false;
+    Character p;
+    private static int x,y;
+    static Rectangle gameBounds = new Rectangle(800, 250, 300, 58);
+    static Rectangle mouse = new Rectangle(x,y,0,0);
+    static boolean newgame;
     
     public MainMenu()
     {
-        addKeyListener(new MC());
+        addMouseListener(new MC());
         setFocusable(true);
         ImageIcon Main = new ImageIcon(getClass().getResource("/images/AmyMainMenu.png"));
         img = Main.getImage();
@@ -31,39 +34,31 @@ public class MainMenu extends JPanel implements ActionListener
         super.paint(g);
         Graphics g2d = (Graphics2D) g;
         g2d.drawImage(img, 0 , 0, null);
+//        g2d.fillRect(800, 250, 300, 58);
+//        g2d.fillRect(x,y,1,1);
     }
     
-    private class MC extends KeyAdapter
+    static class MC extends MouseAdapter
     {
-        public void keyReleased(KeyEvent e)
+        public void mousePressed (MouseEvent e)
         {
-            keyReleased(e);
-        }
-        public void keyPressed(KeyEvent e)
-        {
-            keyPressed(e);
-        }
-    }
-    
-    public void keyPressed(KeyEvent e)
-    {
-        int key = e.getKeyCode();
-        
-        if (key == KeyEvent.VK_LEFT)
-        {
-            
+            x = e.getX();
+            y = e.getY();
+            if (x > 800 && y > 250 && x < 1100 && y < 308)
+            {
+                newgame=true;
+                new GameTest();
+            }
         }
     }
-    
-    public void keyReleased(KeyEvent e)
-    {
-        int key = e.getKeyCode();
-        
-        if (key == KeyEvent.VK_LEFT)
-        {
-            
-        }
-    }
-    
-    
 }
+    
+//    public static void check()
+//    {
+//        contains or intersects does not work
+//        if (gameBounds.contains(mouse))
+//        {
+//            System.out.println("test");
+//        }     
+//    }
+//}

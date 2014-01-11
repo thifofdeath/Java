@@ -11,8 +11,8 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
     Image img, menu;
     Image pistol;
     Timer time;
-    
-    Character p;
+    MainMenu m;
+    Character Male;
     Bullet bul;
     Enemy en, en2;
     Weapon wp, wph;
@@ -33,10 +33,12 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
     
     // int max = 1200;
     // int range = (max) + 1;
-    boolean mainmenu = true;
+//    boolean mainmenu = true;
 
     static Font font = new Font("SanSerif", Font.BOLD, 24);
     static Font font1 = new Font("SanSerif", Font.BOLD, 60);
+    
+    // Custom font
 //    Font fontRaw = Font.createFont(Font.TRUETYPE_FONT, 
 //            new BufferedInputStream(getClass().getClassLoader().
 //                getResourceAsStream("resources/fonts/slkscr.ttf")));
@@ -45,29 +47,27 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
     
     public Board()
     {
-        p = new Character();
+        Male = new Character();
         addKeyListener(new AL());
         setFocusable(true);
-        ImageIcon Main = new ImageIcon(getClass().getResource("/images/AmyMainMenu.png"));
-        menu = Main.getImage();
         ImageIcon i = new ImageIcon(getClass().getResource("/images/background.png"));
         img = i.getImage();
         time = new Timer(5, this);
         time.start();
                                                      
-        en = new Enemy(mobX1, Math(), ("/images/enemy.png"));  // OR p.bul or p.getBul();  
-	en2 = new Enemy(mobX2, Math(), ("/images/enemy.png")); // WHERE p = Character;
+        en = new Enemy(mobX1, Math(), ("/images/enemy.png"));  // OR Male.bul or Male.getBul();  
+	en2 = new Enemy(mobX2, Math(), ("/images/enemy.png")); // WHERE Male = Character;
 //        ImageIcon pistol1 = new ImageIcon(getClass().getResource("/images/pistol.png"));
 //        pistol = pistol1.getImage();   // Previous and default version of inputting picture
         wp = new Weapon(0, 688, ("/images/pistol.png"));
         wph = new Weapon(0, 688, ("/images/pistolgone.png"));
-        // (10 - p.getValueX()) instead of 0, if you want to be more precise.
+        // (10 - Male.getValueX()) instead of 0, if you want to be more precise.
     }
             
     public void actionPerformed(ActionEvent e)
     {
-        p.jump();
-        p.move();
+        Male.jump();
+        Male.move();
         checkCollisions();
         ArrayList bullets = Character.getBullets();
         for (int w = 0; w < bullets.size(); w++)
@@ -84,13 +84,13 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
         }
         
         // Enemy moves with you when you move backwards.
-        if (p.valueX > mobX1)
+        if (Male.valueX > mobX1)
         {
-            en.move(p.getMoveX(), p.getChar());
+            en.move(Male.getMoveX(), Male.getChar());
         }
-        if (p.valueX > mobX2)
+        if (Male.valueX > mobX2)
         {
-            en2.move(p.getMoveX(), p.getChar());
+            en2.move(Male.getMoveX(), Male.getChar());
         }
         // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* \\
         
@@ -197,8 +197,8 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
 	}	
         
         // Body and arm detector
-        Rectangle body = p.getBounds(p.CharacterPos, p.valueY, 74, 186);
-        Rectangle arm = p.getBounds(p.CharacterPos + 61, p.valueY + 26, 62, 26);
+        Rectangle body = Male.getBounds(Male.CharacterPos, Male.valueY, 74, 186);
+        Rectangle arm = Male.getBounds(Male.CharacterPos + 61, Male.valueY + 26, 62, 26);
 	if (body.intersects(firstMob) && en.alive == true || body.intersects(secondMob) && en2.alive == true)
         {
             if (body.intersects(firstMob) && enable)
@@ -208,7 +208,7 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
                 reviver = true;
                 count++;
                 generation=1;
-                p.health-=minus;
+                Male.health-=minus;
                 enable = false;
                 
                 
@@ -220,12 +220,12 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
                 reviver = true;
                 count++;
                 generation=1;
-                p.health-=minus;
+                Male.health-=minus;
                 enable2 = false;
             }
         }
-        else if (arm.intersects(firstMob) && en.alive == true  && wp.weapon == false && p.weaponpickup1 == true
-                || arm.intersects(secondMob) && en2.alive == true && wp.weapon == false && p.weaponpickup1 == true)
+        else if (arm.intersects(firstMob) && en.alive == true  && wp.weapon == false && Male.weaponpickup1 == true
+                || arm.intersects(secondMob) && en2.alive == true && wp.weapon == false && Male.weaponpickup1 == true)
         {
             if (arm.intersects(firstMob) && enable)
             {
@@ -234,7 +234,7 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
                 reviver = true;
                 count++;
                 generation=1;
-                p.health-=minus;
+                Male.health-=minus;
                 enable = false;
             }
             
@@ -245,7 +245,7 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
                 reviver = true;
                 count++;
                 generation=1;
-                p.health-=minus;
+                Male.health-=minus;
                 enable2= false;
             }
         }
@@ -254,10 +254,10 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
     
     public void paint(Graphics g)
     {
-        System.out.println(p.getValueY() + " " + p.getValueX() + " " + p.getMoveY() + " " + p.getMoveX()
-                + ""  + " " + mobX1 + " " + mobX2 + " " + generation + " " + p.getChar() + " " + p.health);
+        System.out.println(Male.getValueY() + " " + Male.getValueX() + " " + Male.getMoveY() + " " + Male.getMoveX()
+                + ""  + " " + mobX1 + " " + mobX2 + " " + generation + " " + Male.getChar() + " " + Male.health);
         randomGenerator();  
-//        if (p.moveY == 1 && k == false);
+//        if (Male.moveY == 1 && k == false);
 //        {
 //            k = true;
 //            animator = new Thread(this);
@@ -270,35 +270,35 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
 //            g2d.drawImage(menu, 0, 0, null);
 //        }
 //        else 
-        if (mainmenu)
+//        if (m.newgame)
         {
             // Loops background so background never disappears
-            if ((p.getValueX() - 10) % 2400 == 0)
+            if ((Male.getValueX() - 10) % 2400 == 0)
             {
-                p.FrameHeightTerrain = 0;
+                Male.FrameHeightTerrain = 0;
             }
 
-            if ((p.getValueX() - 1210) % 2400 == 0)
+            if ((Male.getValueX() - 1210) % 2400 == 0)
             {            
-                p.FrameLength = 0;
+                Male.FrameLength = 0;
             }
 
-            g2d.drawImage(img, 1200 - p.getFrameLength(), 0, null);
+            g2d.drawImage(img, 1200 - Male.getFrameLength(), 0, null);
 
-            if (p.getValueX() >= 10)
+            if (Male.getValueX() >= 10)
             {
-                g2d.drawImage(img, 1200-p.getFrameHeight(), 0, null);
+                g2d.drawImage(img, 1200-Male.getFrameHeight(), 0, null);
             }
-            g2d.drawImage(p.getImage(), p.CharacterPos, p.getValueY(), null);
+            g2d.drawImage(Male.getImage(), Male.CharacterPos, Male.getValueY(), null);
 
-            if (p.getMoveX() == -1) 
+            if (Male.getMoveX() == -3) 
             {	
-                g2d.drawImage(img, 1200 - p.getFrameLength(), 0, null);
-                g2d.drawImage(p.getImage(), p.CharacterPos, p.getValueY(), null);
+                g2d.drawImage(img, 1200 - Male.getFrameLength(), 0, null);
+                g2d.drawImage(Male.getImage(), Male.CharacterPos, Male.getValueY(), null);
             }
             // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* \\
 
-            //if (p.getValueY() >)
+            //if (Male.getValueY() >)
 
             // Bullet initializer
             ArrayList bullets = Character.getBullets();
@@ -313,15 +313,15 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
             // Ammo and weapons you currently have
             g2d.setFont(font);
             g2d.setColor(Color.WHITE);
-            g2d.drawString("Health: " + p.health , 10, 25);
-            g2d.drawString("Ammo: " + p.ammo, 10, 55);
+            g2d.drawString("Health: " + Male.health , 10, 25);
+            g2d.drawString("Ammo: " + Male.ammo, 10, 55);
             g2d.drawString("Kills: " + kill, 250, 25);
             // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* \\
 
             // When enemy spawns
             boolean enemyactivated = false;
             boolean enemyactivated2 = false;
-            if (p.valueX > mobX1)
+            if (Male.valueX > mobX1)
             {
                 if (en.isAlive() == true)
                 {
@@ -330,7 +330,7 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
                     enable= true;
                 }
             }
-            if (p.valueX > mobX2)
+            if (Male.valueX > mobX2)
             {
                 if (en2.isAlive() == true)
                 {
@@ -350,37 +350,37 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
             }
             // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* \\
 
-            if (p.getChar() > p.getValueX() - 1200)
+            if (Male.getChar() > Male.getValueX() - 1200)
             {
-                //g2d.drawImage(pistol, (10 - p.getValueX()), 279, null);
+                //g2d.drawImage(pistol, (10 - Male.getValueX()), 279, null);
                 if (wp.isVisible() == true)
                 {
                     g2d.drawImage(wp.getImage(), wp.getX(), wp.getY(), null);
                 }   
             }
-            if (p.getChar() < p.getValueX() - 1200)
+            if (Male.getChar() < Male.getValueX() - 1200)
             {
                 wp.visible = false;
             }
 
             // Weapon activator and detector
             Rectangle wprect = new Rectangle (wp.getBounds());
-            Rectangle chrect = new Rectangle (p.defBody());
+            Rectangle chrect = new Rectangle (Male.defBody());
             if (chrect.intersects(wprect) && wp.weapon == true && wp.visible == true)
             {
                 wp.weapon = false;
-                p.weaponswitch1 = true;
-                p.weaponpickup1 = true;
-                // p.character = p.weaponhold.getImage();
+                Male.weaponswitch1 = true;
+                Male.weaponpickup1 = true;
+                // Male.character = Male.weaponhold.getImage();
                 wp.img = wph.getImage();
                 wp.visible = false;
-                p.ammo = 25;
+                Male.ammo = 25;
             }
     //            if (!wp.weapon) 
     //            {
     //                if (!wp.weapon && wp.visible)
     //                {
-    //                    if (p.getValueX() == 150);
+    //                    if (Male.getValueX() == 150);
     //                    {
     //                        System.out.println("lol");
     //                        wp.visible = false;        
@@ -390,7 +390,7 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
             // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* \\
 
             // Enemy goes past screen behind you, resets counter so you can see enemies again
-            if (en.getX() < p.getChar() - 198 ) // 150 + length of enemy (48 in this case)
+            if (en.getX() < Male.getChar() - 198 ) // 150 + length of enemy (48 in this case)
             {
                 en.alive = false;	
                 lost = false;
@@ -398,7 +398,7 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
                 generation=2;
                 count++;
             }
-            if (en2.getX() < p.getChar() - 198)
+            if (en2.getX() < Male.getChar() - 198)
             {
                 en2.alive = false;
                 lost = false;
@@ -409,7 +409,7 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
             // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* \\
 
             // What happens when you lose.
-            if (p.health <= 0)
+            if (Male.health <= 0)
             {
                 lost = true;
                 time.stop();
@@ -423,11 +423,11 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
     {
         public void keyReleased(KeyEvent e)
         {
-            p.keyReleased(e);
+            Male.keyReleased(e);
         }
         public void keyPressed(KeyEvent e)
         {
-            p.keyPressed(e);
+            Male.keyPressed(e);
         }
     }
 //    
