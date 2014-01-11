@@ -1,5 +1,13 @@
 Patch notes ._.
 
+3.1 
+Added MainMenu, only has New Game
+WIP character selection, male / female
+Added reset button, to go back to mainmenu "P"
+WIP weapon evolution based on numbers of killed units
+WIP Mob spawn
+Crouching will be added soon.
+
 2.0 
 Enemy spawn everytime you kill them.
 Whether or not the first or second one is killed first.
