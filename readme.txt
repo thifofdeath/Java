@@ -1,5 +1,8 @@
 Patch notes ._.
 
+3.2
+New sprite for female, added walking animation
+
 3.1 
 Added MainMenu, only has New Game
 WIP character selection, male / female
@@ -9,7 +12,7 @@ WIP Mob spawn
 Crouching will be added soon.
 
 2.0 
-Enemy spawn everytime you kill them.
+Enemy spawn everytime and you can kill them.
 Whether or not the first or second one is killed first.
 Added gun holding sprite, bullets from gun.
 Added collision detection from the hand and gun.
