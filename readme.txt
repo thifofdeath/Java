@@ -1,5 +1,12 @@
 Patch notes ._.
 
+3.3
+Walking sprite immediate and a bit smoother
+Attack animation semi-smooth
+Jumping picture only when jumping, no falling sprite yet
+WIP crouching for both male and female
+WIP character selection screen
+
 3.2
 New sprite for female, added walking animation
 

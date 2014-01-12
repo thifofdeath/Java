@@ -30,11 +30,27 @@ public class Character
     ImageIcon pistol2 = new ImageIcon(getClass().getResource("/images/pistol1b.png"));
     ImageIcon crouch = new ImageIcon(getClass().getResource(""));
     
-    ImageIcon chica = new ImageIcon(getClass().getResource("/images/SpriteIdle.png"));
-    ImageIcon chica1 = new ImageIcon(getClass().getResource("/images/SpriteWalking1.png"));
-    ImageIcon chica2 = new ImageIcon(getClass().getResource("/images/SpriteWalking2.png"));
-    ImageIcon chica3 = new ImageIcon(getClass().getResource("/images/SpriteWalking3.png"));
-    ImageIcon chica4 = new ImageIcon(getClass().getResource("/images/SpriteWalking4.png"));
+    ImageIcon chica = new ImageIcon(getClass().getResource("/images/female/idle/SpriteIdle.png"));
+    ImageIcon leftchica = new ImageIcon(getClass().getResource("/images/female/idle/LeftSpriteIdle.png"));
+    
+    ImageIcon chica1 = new ImageIcon(getClass().getResource("/images/female/walking/SpriteWalking1.png"));
+    ImageIcon chica2 = new ImageIcon(getClass().getResource("/images/female/walking/SpriteWalking2.png"));
+    ImageIcon chica3 = new ImageIcon(getClass().getResource("/images/female/walking/SpriteWalking3.png"));
+    ImageIcon chica4 = new ImageIcon(getClass().getResource("/images/female/walking/SpriteWalking4.png"));
+    ImageIcon leftchica1 = new ImageIcon(getClass().getResource("/images/female/walking/LeftSpriteWalking1.png"));
+    ImageIcon leftchica2 = new ImageIcon(getClass().getResource("/images/female/walking/LeftSpriteWalking2.png"));
+    ImageIcon leftchica3 = new ImageIcon(getClass().getResource("/images/female/walking/LeftSpriteWalking3.png"));
+    ImageIcon leftchica4 = new ImageIcon(getClass().getResource("/images/female/walking/LeftSpriteWalking4.png"));
+    
+    ImageIcon chicajumping1 = new ImageIcon(getClass().getResource("/images/female/jumping/SpriteJumping1.png"));
+    ImageIcon chicajumping2 = new ImageIcon(getClass().getResource("/images/female/jumping/SpriteJumping2.png"));
+    ImageIcon chicafalling = new ImageIcon(getClass().getResource("/images/female/falling/SpriteFalling1.png"));
+    
+    ImageIcon chicaattack1 = new ImageIcon(getClass().getResource("/images/female/attacking/SpriteAttacking1.png"));
+    ImageIcon chicaattack2 = new ImageIcon(getClass().getResource("/images/female/attacking/SpriteAttacking2.png"));
+    ImageIcon chicaattack3 = new ImageIcon(getClass().getResource("/images/female/attacking/SpriteAttacking3.png"));
+    ImageIcon chicaattack4 = new ImageIcon(getClass().getResource("/images/female/attacking/SpriteAttacking4.png"));
+    
     static int sprite=0;
     
     String bul = "/images/bullet.png";
@@ -42,7 +58,9 @@ public class Character
     // X AXIS
     int MOVESPEED = 2;
     // Y AXIS
-    int JUMPSPEED = 3;
+    int JUMPSPEED = 2;
+    // Weapon Speed       
+    int ASPD = 30;
     
     int velX = 0;
     int velY = 0;
@@ -64,6 +82,13 @@ public class Character
     boolean female=true;
     
     boolean allow;
+    boolean melee= false;
+    
+    boolean walkallow;
+    boolean walking = false;
+    boolean rewalking;
+    boolean rewalkallow=false;
+    
     boolean weaponpickup1 = false;
     boolean weaponswitch1 = false;
     
@@ -71,6 +96,7 @@ public class Character
     boolean upgrade2 = false;
     
     int health = 100;
+    
     
 //    private CharacterF chica;
     private BufferedImage[] idle;
@@ -141,6 +167,35 @@ public class Character
     {
         return bullets;
     }
+    
+    public void attack()
+    {
+        sprite++;
+        if (sprite == ASPD)
+        {   
+            character = chicaattack1.getImage();
+            sprite++;
+        }
+        else if (sprite > ASPD + 30 && sprite < ASPD + 60)
+        {
+            character = chicaattack2.getImage();
+            sprite++;
+        }
+        else if (sprite > ASPD + 90 && sprite < ASPD + 120)
+        {
+            character = chicaattack3.getImage();
+            sprite++;
+        }
+        else if (sprite > ASPD + 150 && sprite < ASPD + 200)
+        {
+            character = chicaattack4.getImage();
+            sprite++;
+        }
+        if (sprite > ASPD + 201)
+        {
+            sprite=0;
+        }
+    }
 
     public void fire()
     {
@@ -201,9 +256,10 @@ public class Character
                 {
                     valueY=varY;
                 }
+                character = chicajumping2.getImage();
             }
         }
-        if (moveY == 0)
+        if (moveY == -JUMPSPEED)
         {
             gravity();
         }
@@ -276,6 +332,64 @@ public class Character
         if (moveY == JUMPSPEED)
         {
             
+        }
+    }
+    
+    public void walking()
+    {
+        sprite++;
+         if (sprite == ASPD)
+        {   
+            character = chica1.getImage();
+            sprite++;
+        }
+        else if (sprite > ASPD + 30 && sprite < ASPD + 60)
+        {
+            character = chica2.getImage();
+            sprite++;
+        }
+        else if (sprite > ASPD + 90 && sprite < ASPD + 120)
+        {
+            character = chica3.getImage();
+            sprite++;
+        }
+        else if (sprite > ASPD + 150 && sprite < ASPD + 200)
+        {
+            character = chica4.getImage();
+            sprite++;
+        }
+        if (sprite > ASPD + 201)
+        {
+            sprite=0;
+        }
+    }
+    
+    public void rewalking()
+    {
+        sprite++;
+         if (sprite == ASPD)
+        {   
+            character = leftchica1.getImage();
+            sprite++;
+        }
+        else if (sprite > ASPD + 30 && sprite < ASPD + 60)
+        {
+            character = leftchica2.getImage();
+            sprite++;
+        }
+        else if (sprite > ASPD + 90 && sprite < ASPD + 120)
+        {
+            character = leftchica3.getImage();
+            sprite++;
+        }
+        else if (sprite > ASPD + 150 && sprite < ASPD + 200)
+        {
+            character = leftchica4.getImage();
+            sprite++;
+        }
+        if (sprite > ASPD + 201)
+        {
+            sprite=0;
         }
     }
     
@@ -356,14 +470,14 @@ public class Character
             }
             else if (female)
             {
-                character = chica.getImage();
+                rewalkallow = true;
+                rewalking= true;
+                rewalking();
             }
         }
-        
         if (key == KeyEvent.VK_RIGHT)
         {
             moveX = MOVESPEED;
-            sprite++;
             if (male)
             {
                 if (!weaponswitch1)
@@ -375,25 +489,11 @@ public class Character
                     character = weaponhold.getImage();
                 }
             }
-            if (female)
+            else if (female)
             {
-                if (sprite <= 5)
-                {
-                    character = chica1.getImage();
-                }
-                else if (sprite > 6 && sprite < 9)
-                {
-                    character = chica2.getImage();
-                }
-                else if (sprite > 10 && sprite < 13)
-                {
-                    character = chica3.getImage();
-                }
-                else if (sprite > 14 && sprite < 17)
-                {
-                    character = chica4.getImage();
-                    sprite=0;
-                }
+                walkallow = true;
+                walking= true;
+                walking();
             }
         }
         
@@ -413,9 +513,8 @@ public class Character
             }
             else if (female)
             {
-                character = chica.getImage();
+                character = chicajumping1.getImage();
             }
-                jump();
         }
         
         
@@ -423,13 +522,8 @@ public class Character
         {
             
         }
-//        
-//        if (key == MouseEvent.MOUSE_CLICKED)
-//        {
-//           
-//        }
         
-        if (key == KeyEvent.VK_SPACE && !jumping) 
+        if (key == KeyEvent.VK_SPACE) 
         {
             if (male)
             {
@@ -440,7 +534,9 @@ public class Character
             }
             else if (female)
             {
-                character = chica.getImage();
+                melee = true;
+                allow = true;
+                attack();
             }
             //allow = true;
         }
@@ -489,7 +585,9 @@ public class Character
             }
             else if (female)
             {
-                character = chica.getImage();
+                rewalking=false;
+                rewalkallow=false;
+                character = leftchica.getImage();
             }
         }
         
@@ -509,22 +607,35 @@ public class Character
             }
             else if (female)
             {
+                walking=false;
+                walkallow=false;
                 character = chica.getImage();
             }
         }
         
         if (key == KeyEvent.VK_UP)
         {
-            moveY = 0;
+            moveY = -JUMPSPEED;
             if (male)
             {
                 character = weaponhold.getImage();
             }
             else if (female)
             {
+                sprite=0;
                 character = chica.getImage();
             }
             //heightdetect = true;
+        }
+        
+        if (key == KeyEvent.VK_SPACE) 
+        {
+            if (male)
+            {
+            }
+            else if (female)
+            {
+            }
         }
     }
 }

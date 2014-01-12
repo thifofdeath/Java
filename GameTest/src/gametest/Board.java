@@ -32,6 +32,10 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
     int kill=0;
     boolean enable = true, enable2 = true;
     
+    int attack=0;
+    int walk=0;
+    int rewalk=0;
+    
     // int max = 1200;
     // int range = (max) + 1;
 //    boolean mainmenu = true;
@@ -67,6 +71,44 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
             
     public void actionPerformed(ActionEvent e)
     {
+        if (p.melee && attack <= 187)
+        {
+            p.attack();
+            attack++;
+        }
+        if (attack == 188)
+        {
+            p.melee = false;
+            p.allow = false;
+            p.character = p.chica.getImage();
+            attack=0;
+        }
+        
+        if (p.walking && walk <= 205)
+        {
+            p.walking();
+            walk++;
+        }
+        if (walk == 206)
+        {
+            p.walking = false;
+            p.walkallow = false;
+            p.character = p.chica.getImage();
+            walk = 0;
+        }
+        
+        if (p.rewalking && rewalk <= 205)
+        {
+            p.rewalking();
+            rewalk++;
+        }
+        if (rewalk == 206)
+        {
+            p.rewalking = false;
+            p.rewalkallow = false;
+            p.character = p.leftchica.getImage();
+            rewalk = 0;
+        }
         p.jump();
         p.move();
         checkCollisions();
@@ -83,6 +125,7 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
                 bullets.remove(w);
             }
         }
+        
         
         // Enemy moves with you when you move backwards.
         if (p.valueX > mobX1)
@@ -155,99 +198,139 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
 	Rectangle firstMob = en.getBounds();
 	Rectangle secondMob = en2.getBounds();
         // (en.getX() + 46, en.getY() + 36 , 141, 93)
-        
-	ArrayList bullets = Character.getBullets();
-	for (int w = 0; w < bullets.size(); w++)
-	{
-		Bullet blt = (Bullet) bullets.get(w);
-		Rectangle bulletrect = blt.getBounds();
-		if (firstMob.intersects(bulletrect) && en.isAlive())
-		{
-			en.alive = false;
-			blt.visible = false;
-                        lost = false;
-                        reviver = true;
-                        generation=2;
-                        count++;
-                        kill++;
-                }
-//                      if (en2.isAlive() == false && en.isAlive())
-//                      {
-//                          reviver = true;
-//                          generation = 2;
-//                          ran1 += 601;
-//                          ran2 += 600;
-//                      }
-		else if (secondMob.intersects(bulletrect)&& en2.isAlive())
-		{
-			en2.alive = false;
-			blt.visible = false;
-                        lost = false;
-                        reviver = true;
-                        count++;
-                        generation=1;
-                        kill++;
-                }
-//                      if (en.isAlive() == false && en2.isAlive())
-//                      {
-//                          reviver = true;
-//                          generation = 2;
-//                          ran1 += 601;
-//                          ran2 += 600;
-//                      }
-	}	
-        
-        // Body and arm detector
-        Rectangle body = p.getBounds(p.CharacterPos, p.valueY, 74, 186);
-        Rectangle arm = p.getBounds(p.CharacterPos + 61, p.valueY + 26, 62, 26);
-	if (body.intersects(firstMob) && en.alive == true || body.intersects(secondMob) && en2.alive == true)
+        if (p.male)
         {
-            if (body.intersects(firstMob) && enable)
+            ArrayList bullets = Character.getBullets();
+            for (int w = 0; w < bullets.size(); w++)
             {
-                int minus=5;
-                en.alive = false;
-                reviver = true;
-                count++;
-                generation=1;
-                p.health-=minus;
-                enable = false;
-                
-                
+                    Bullet blt = (Bullet) bullets.get(w);
+                    Rectangle bulletrect = blt.getBounds();
+                    if (firstMob.intersects(bulletrect) && en.isAlive())
+                    {
+                            en.alive = false;
+                            blt.visible = false;
+                            lost = false;
+                            reviver = true;
+                            generation=2;
+                            count++;
+                            kill++;
+                    }
+                    else if (secondMob.intersects(bulletrect)&& en2.isAlive())
+                    {
+                            en2.alive = false;
+                            blt.visible = false;
+                            lost = false;
+                            reviver = true;
+                            count++;
+                            generation=1;
+                            kill++;
+                    }
             }
-            else if (body.intersects(secondMob) && enable2)
+
+            // Body and arm detector
+            Rectangle body = p.getBounds(p.CharacterPos, p.valueY, 74, 186);
+            Rectangle arm = p.getBounds(p.CharacterPos + 61, p.valueY + 26, 62, 26);
+            if (body.intersects(firstMob) && en.alive == true || body.intersects(secondMob) && en2.alive == true)
             {
-                int minus=5;
-                en2.alive = false;
-                reviver = true;
-                count++;
-                generation=1;
-                p.health-=minus;
-                enable2 = false;
+                if (body.intersects(firstMob) && enable)
+                {
+                    int minus=5;
+                    en.alive = false;
+                    reviver = true;
+                    count++;
+                    generation=1;
+                    p.health-=minus;
+                    enable = false;
+
+
+                }
+                else if (body.intersects(secondMob) && enable2)
+                {
+                    int minus=5;
+                    en2.alive = false;
+                    reviver = true;
+                    count++;
+                    generation=1;
+                    p.health-=minus;
+                    enable2 = false;
+                }
+            }
+            else if (arm.intersects(firstMob) && en.alive == true  && wp.weapon == false && p.weaponpickup1 == true
+                    || arm.intersects(secondMob) && en2.alive == true && wp.weapon == false && p.weaponpickup1 == true)
+            {
+                if (arm.intersects(firstMob) && enable)
+                {
+                    int minus=5;
+                    en.alive = false;
+                    reviver = true;
+                    count++;
+                    generation=1;
+                    p.health-=minus;
+                    enable = false;
+                }
+
+                else if (arm.intersects(secondMob) && enable2)
+                {
+                    int minus=5;
+                    en2.alive = false;
+                    reviver = true;
+                    count++;
+                    generation=1;
+                    p.health-=minus;
+                    enable2= false;
+                }
             }
         }
-        else if (arm.intersects(firstMob) && en.alive == true  && wp.weapon == false && p.weaponpickup1 == true
-                || arm.intersects(secondMob) && en2.alive == true && wp.weapon == false && p.weaponpickup1 == true)
+        else if (p.female)
         {
-            if (arm.intersects(firstMob) && enable)
+            Rectangle bodyF = p.getBounds(p.CharacterPos, p.valueY, 83, 149);
+        // Only activates arm if space is pressed // boolean melee=true;
+            if (p.melee)
             {
-                int minus=5;
-                en.alive = false;
-                reviver = true;
-                count++;
-                generation=1;
-                p.health-=minus;
-                enable = false;
+                Rectangle armF = p.getBounds(p.CharacterPos + 75, p.valueY + 36, 80, 48);
+                if (firstMob.intersects(armF))
+                {
+                    en.alive = false;
+                    lost = false;
+                    reviver = true;
+                    generation=2;
+                    count++;
+                    kill++;
+                }
+                else if (secondMob.intersects(armF))
+                {
+                    en.alive = false;
+                    lost = false;
+                    reviver = true;
+                    generation=1;
+                    count++;
+                    kill++;
+                }
             }
-            
-            else if (arm.intersects(secondMob) && enable2)
+            if (bodyF.intersects(firstMob) && en.alive == true || bodyF.intersects(secondMob) && en2.alive == true)
             {
-                int minus=5;
-                en2.alive = false;
-                reviver = true;
-                count++;
-                generation=1;
-                p.health-=minus;
-                enable2= false;
+                if (bodyF.intersects(firstMob) && enable)
+                {
+                    int minus=5;
+                    en.alive = false;
+                    reviver = true;
+                    count++;
+                    generation=1;
+                    p.health-=minus;
+                    enable = false;
+
+
+                }
+                else if (bodyF.intersects(secondMob) && enable2)
+                {
+                    int minus=5;
+                    en2.alive = false;
+                    reviver = true;
+                    count++;
+                    generation=1;
+                    p.health-=minus;
+                    enable2 = false;
+                }
             }
         }
 	// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* \\
@@ -256,7 +339,7 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
     public void paint(Graphics g)
     {
         System.out.println(p.getValueY() + " " + p.getValueX() + " " + p.getMoveY() + " " + p.getMoveX()
-                + ""  + " " + mobX1 + " " + mobX2 + " " + generation + " " + p.getChar() + " " + p.health);
+                + " "  + p.sprite + " " + mobX1 + " " + mobX2 + " " + generation + " " + p.getChar() + " " + p.health + " " + walk);
         randomGenerator();  
 //        if (p.moveY == 1 && k == false);
 //        {
@@ -266,7 +349,6 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
 //        }
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
-  
 //        if (mainmenu)
 //        {
 //            g2d.drawImage(menu, 0, 0, null);

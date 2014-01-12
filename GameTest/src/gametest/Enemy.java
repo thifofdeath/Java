@@ -40,7 +40,7 @@ public class Enemy
     
     public void move(int moveX, int CharacterPosition)
     {
-        if (moveX == 3 && !((CharacterPosition + moveX )< 400)) //Added this to only move enemy 
+        if (moveX == p.MOVESPEED && !((CharacterPosition + moveX )< 400)) //Added this to only move enemy 
         {                                    // when character moves forward (not back)
             x = x - moveX;
         } 
