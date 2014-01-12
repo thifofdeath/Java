@@ -5,6 +5,7 @@ import javax.swing.*;
 public class GameTest
 {
     MainMenu m;
+    Board b;
     static JFrame menu = new JFrame();
     static JFrame frame = new JFrame();
     static int value = 0;
@@ -30,8 +31,10 @@ public class GameTest
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(1200,800);// 800 for gravity test
             frame.setVisible(true);
+            frame.setResizable(false);
             frame.setLocationRelativeTo(null);
         }
+        
     }
 	
     public static void main(String[] args)

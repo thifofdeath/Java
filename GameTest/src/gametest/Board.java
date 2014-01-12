@@ -71,44 +71,48 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
             
     public void actionPerformed(ActionEvent e)
     {
-        if (p.melee && attack <= 187)
+        if (p.female)
         {
-            p.attack();
-            attack++;
-        }
-        if (attack == 188)
-        {
-            p.melee = false;
-            p.allow = false;
-            p.character = p.chica.getImage();
-            attack=0;
+            if (p.melee && attack <= 187)
+            {
+                p.attack();
+                attack++;
+            }
+            if (attack == 188)
+            {
+                p.melee = false;
+                p.allow = false;
+                p.character = p.chica.getImage();
+                attack=0;
+            }
+
+            if (p.walking && walk <= 205)
+            {
+                p.walking();
+                walk++;
+            }
+            if (walk == 206)
+            {
+                p.walking = false;
+                p.walkallow = false;
+                p.character = p.chica.getImage();
+                walk = 0;
+            }
+
+            if (p.rewalking && rewalk <= 205)
+            {
+                p.rewalking();
+                rewalk++;
+            }
+            if (rewalk == 206)
+            {
+                p.rewalking = false;
+                p.rewalkallow = false;
+                p.character = p.leftchica.getImage();
+                rewalk = 0;
+            }
         }
         
-        if (p.walking && walk <= 205)
-        {
-            p.walking();
-            walk++;
-        }
-        if (walk == 206)
-        {
-            p.walking = false;
-            p.walkallow = false;
-            p.character = p.chica.getImage();
-            walk = 0;
-        }
-        
-        if (p.rewalking && rewalk <= 205)
-        {
-            p.rewalking();
-            rewalk++;
-        }
-        if (rewalk == 206)
-        {
-            p.rewalking = false;
-            p.rewalkallow = false;
-            p.character = p.leftchica.getImage();
-            rewalk = 0;
-        }
         p.jump();
         p.move();
         checkCollisions();
@@ -183,7 +187,7 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
     
     public final int Math()
     {
-        mobY = (int)(Math.random() * 550 + 400);
+        mobY = (int)(Math.random() * 100 + 500);
 //        mobY = (int)(Math.random() * 365);
 //        if (mobY > 200) 198 to be more precise // Use this if you want more complicated
 //        {
@@ -339,7 +343,7 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
     public void paint(Graphics g)
     {
         System.out.println(p.getValueY() + " " + p.getValueX() + " " + p.getMoveY() + " " + p.getMoveX()
-                + " "  + p.sprite + " " + mobX1 + " " + mobX2 + " " + generation + " " + p.getChar() + " " + p.health + " " + walk);
+                + " " + " " + mobX1 + " " + mobX2 + " " + generation + " " + p.getChar() + " " + p.health);
         randomGenerator();  
 //        if (p.moveY == 1 && k == false);
 //        {
@@ -349,12 +353,7 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
 //        }
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
-//        if (mainmenu)
-//        {
-//            g2d.drawImage(menu, 0, 0, null);
-//        }
-//        else 
-//        if (m.newgame)
+
         {
             // Loops background so background never disappears
             if ((p.getValueX() - 10) % 2400 == 0)
@@ -435,43 +434,46 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
             }
             // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* \\
 
-            if (p.getChar() > p.getValueX() - 1200)
+            if (p.male)
             {
-                //g2d.drawImage(pistol, (10 - p.getValueX()), 279, null);
-                if (wp.isVisible() == true)
+                if (p.getChar() > p.getValueX() - 1200)
                 {
-                    g2d.drawImage(wp.getImage(), wp.getX(), wp.getY(), null);
-                }   
-            }
-            if (p.getChar() < p.getValueX() - 1200)
-            {
-                wp.visible = false;
-            }
+                    //g2d.drawImage(pistol, (10 - p.getValueX()), 279, null);
+                    if (wp.isVisible() == true)
+                    {
+                        g2d.drawImage(wp.getImage(), wp.getX(), wp.getY(), null);
+                    }   
+                }
+                if (p.getChar() < p.getValueX() - 1200)
+                {
+                    wp.visible = false;
+                }
 
-            // Weapon activator and detector
-            Rectangle wprect = new Rectangle (wp.getBounds());
-            Rectangle chrect = new Rectangle (p.defBody());
-            if (chrect.intersects(wprect) && wp.weapon == true && wp.visible == true)
-            {
-                wp.weapon = false;
-                p.weaponswitch1 = true;
-                p.weaponpickup1 = true;
-                // p.character = p.weaponhold.getImage();
-                wp.img = wph.getImage();
-                wp.visible = false;
-                p.ammo = 25;
+                // Weapon activator and detector
+                Rectangle wprect = new Rectangle (wp.getBounds());
+                Rectangle chrect = new Rectangle (p.defBody());
+                if (chrect.intersects(wprect) && wp.weapon == true && wp.visible == true)
+                {
+                    wp.weapon = false;
+                    p.weaponswitch1 = true;
+                    p.weaponpickup1 = true;
+                    // p.character = p.weaponhold.getImage();
+                    wp.img = wph.getImage();
+                    wp.visible = false;
+                    p.ammo = 25;
+                }
+        //            if (!wp.weapon) 
+        //            {
+        //                if (!wp.weapon && wp.visible)
+        //                {
+        //                    if (p.getValueX() == 150);
+        //                    {
+        //                        System.out.println("lol");
+        //                        wp.visible = false;        
+        //                    }
+        //                }
+        //            }
             }
-    //            if (!wp.weapon) 
-    //            {
-    //                if (!wp.weapon && wp.visible)
-    //                {
-    //                    if (p.getValueX() == 150);
-    //                    {
-    //                        System.out.println("lol");
-    //                        wp.visible = false;        
-    //                    }
-    //                }
-    //            }
             // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* \\
 
             // Enemy goes past screen behind you, resets counter so you can see enemies again

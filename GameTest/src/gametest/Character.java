@@ -544,7 +544,10 @@ public class Character
         if (key == KeyEvent.VK_R)
         {
             // No timer for now
-            ammo = 25;
+            if (weaponpickup1)
+            {
+                ammo = 25;
+            }
         }
         
         if (key == KeyEvent.VK_1)
