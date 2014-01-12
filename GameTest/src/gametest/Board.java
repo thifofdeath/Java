@@ -242,7 +242,7 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
                     en.alive = false;
                     reviver = true;
                     count++;
-                    generation=1;
+                    generation=2;
                     p.health-=minus;
                     enable = false;
 
@@ -268,7 +268,7 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
                     en.alive = false;
                     reviver = true;
                     count++;
-                    generation=1;
+                    generation=2;
                     p.health-=minus;
                     enable = false;
                 }
@@ -319,7 +319,7 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
                     en.alive = false;
                     reviver = true;
                     count++;
-                    generation=1;
+                    generation=2;
                     p.health-=minus;
                     enable = false;
 
