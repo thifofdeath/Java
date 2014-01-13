@@ -9,6 +9,8 @@ public class Enemy
     int x, y;
     Image img;
     boolean alive = true;
+    int width = 68;
+    int height = 68;
     
     public Enemy(int startX, int startY, String image)
     {
@@ -28,6 +30,16 @@ public class Enemy
         return y;
     }
     
+    public int getWidth()
+    {
+        return width;
+    }
+    
+    public int getHeight()
+    {
+        return height;
+    }
+    
     public Image getImage()
     {
         return img;
@@ -40,7 +52,7 @@ public class Enemy
     
     public void move(int moveX, int CharacterPosition)
     {
-        if (moveX == p.MOVESPEED && !((CharacterPosition + moveX )< 400)) //Added this to only move enemy 
+        if (moveX == p.MOVESPEED && !((CharacterPosition + moveX )< p.SCREENLIMIT)) //Added this to only move enemy 
         {                                    // when character moves forward (not back)
             x = x - moveX;
         } 
@@ -48,7 +60,7 @@ public class Enemy
 
     public Rectangle getBounds()
     {
-        return new Rectangle(x, y, 68, 68);
+        return new Rectangle(x, y, width, height);
     }
 //    public Rectangle getBounds()
 //    {

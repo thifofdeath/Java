@@ -73,12 +73,12 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
     {
         if (p.female)
         {
-            if (p.melee && attack <= 187)
+            if (p.melee && attack <= 147)
             {
                 p.attack();
                 attack++;
             }
-            if (attack == 188)
+            if (attack >= 148)
             {
                 p.melee = false;
                 p.allow = false;
@@ -91,7 +91,7 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
                 p.walking();
                 walk++;
             }
-            if (walk == 206)
+            if (walk >= 206)
             {
                 p.walking = false;
                 p.walkallow = false;
@@ -104,7 +104,7 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
                 p.rewalking();
                 rewalk++;
             }
-            if (rewalk == 206)
+            if (rewalk >= 206)
             {
                 p.rewalking = false;
                 p.rewalkallow = false;
@@ -292,7 +292,7 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
             if (p.melee)
             {
                 Rectangle armF = p.getBounds(p.CharacterPos + 75, p.valueY + 36, 80, 48);
-                if (firstMob.intersects(armF))
+                if (firstMob.intersects(armF)  && en.alive == true  && enable)
                 {
                     en.alive = false;
                     lost = false;
@@ -301,7 +301,7 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
                     count++;
                     kill++;
                 }
-                else if (secondMob.intersects(armF))
+                else if (secondMob.intersects(armF)&& en2.alive == true && enable2)
                 {
                     en.alive = false;
                     lost = false;
@@ -343,7 +343,7 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
     public void paint(Graphics g)
     {
         System.out.println(p.getValueY() + " " + p.getValueX() + " " + p.getMoveY() + " " + p.getMoveX()
-                + " " + " " + mobX1 + " " + mobX2 + " " + generation + " " + p.getChar() + " " + p.health);
+                + " " + p.sprite + " " + mobX1 + " " + mobX2 + " " + generation + " " + p.getChar() + " " + p.health + " " + p.ASPD);
         randomGenerator();  
 //        if (p.moveY == 1 && k == false);
 //        {
@@ -361,16 +361,16 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
                 p.FrameHeightTerrain = 0;
             }
 
-            if ((p.getValueX() - 1210) % 2400 == 0)
+            if ((p.getValueX() - 1210) % 2400 == 0) // FrameLength originally 1200
             {            
                 p.FrameLength = 0;
             }
 
             g2d.drawImage(img, 1200 - p.getFrameLength(), 0, null);
 
-            if (p.getValueX() >= 10)
+            if (p.getValueX() >= p.getValueX())
             {
-                g2d.drawImage(img, 1200-p.getFrameHeight(), 0, null);
+                g2d.drawImage(img, 1200 -p.getFrameHeight(), 0, null);
             }
             g2d.drawImage(p.getImage(), p.CharacterPos, p.getValueY(), null);
 
@@ -477,7 +477,7 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
             // *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* \\
 
             // Enemy goes past screen behind you, resets counter so you can see enemies again
-            if (en.getX() < p.getChar() - 198 ) // 150 + length of enemy (48 in this case)
+            if (en.getX() < p.getChar() - (p.SCREENLIMIT + en.getWidth())) // 150 + length of enemy (48 in this case)
             {
                 en.alive = false;	
                 lost = false;
@@ -485,7 +485,7 @@ public class Board extends JPanel implements ActionListener// MouseListener //, 
                 generation=2;
                 count++;
             }
-            if (en2.getX() < p.getChar() - 198)
+            if (en2.getX() < p.getChar() - (p.SCREENLIMIT + en.getWidth()))
             {
                 en2.alive = false;
                 lost = false;

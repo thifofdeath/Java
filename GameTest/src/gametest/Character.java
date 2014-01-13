@@ -52,15 +52,19 @@ public class Character
     ImageIcon chicaattack4 = new ImageIcon(getClass().getResource("/images/female/attacking/SpriteAttacking4.png"));
     
     static int sprite=0;
+    static int sprite1=0;
     
     String bul = "/images/bullet.png";
     
+    // Character Screen Limit
+    int SCREENLIMIT = 400;
     // X AXIS
     int MOVESPEED = 2;
     // Y AXIS
     int JUMPSPEED = 2;
     // Weapon Speed       
-    int ASPD = 30;
+    int ASPD = 5;
+    int MS_SPD = 15;
     
     int velX = 0;
     int velY = 0;
@@ -170,30 +174,30 @@ public class Character
     
     public void attack()
     {
-        sprite++;
-        if (sprite == ASPD)
+        sprite1++;
+        if (sprite1 == ASPD)
         {   
             character = chicaattack1.getImage();
-            sprite++;
+            sprite1++;
         }
-        else if (sprite > ASPD + 30 && sprite < ASPD + 60)
+        else if (sprite1 > ASPD + 20 && sprite1 < ASPD + 50)
         {
             character = chicaattack2.getImage();
-            sprite++;
+            sprite1++;
         }
-        else if (sprite > ASPD + 90 && sprite < ASPD + 120)
+        else if (sprite1 > ASPD + 80 && sprite1 < ASPD + 110)
         {
             character = chicaattack3.getImage();
-            sprite++;
+            sprite1++;
         }
-        else if (sprite > ASPD + 150 && sprite < ASPD + 200)
+        else if (sprite1 > ASPD + 140 && sprite1 < ASPD + 190)
         {
             character = chicaattack4.getImage();
-            sprite++;
+            sprite1++;
         }
-        if (sprite > ASPD + 201)
+        if (sprite1 > ASPD + 191)
         {
-            sprite=0;
+            sprite1=0;
         }
     }
 
@@ -306,7 +310,7 @@ public class Character
         
         if (moveX != -1)
         {
-            if (CharacterPos + moveX <= 400) // Character Screen Limit
+            if (CharacterPos + moveX <= SCREENLIMIT) // Character Screen Limit
             {
                 CharacterPos += moveX;
             }
@@ -338,27 +342,27 @@ public class Character
     public void walking()
     {
         sprite++;
-         if (sprite == ASPD)
+         if (sprite <= MS_SPD)
         {   
             character = chica1.getImage();
             sprite++;
         }
-        else if (sprite > ASPD + 30 && sprite < ASPD + 60)
+        else if (sprite > MS_SPD + 30 && sprite < MS_SPD + 60)
         {
             character = chica2.getImage();
             sprite++;
         }
-        else if (sprite > ASPD + 90 && sprite < ASPD + 120)
+        else if (sprite > MS_SPD + 90 && sprite < MS_SPD + 120)
         {
             character = chica3.getImage();
             sprite++;
         }
-        else if (sprite > ASPD + 150 && sprite < ASPD + 200)
+        else if (sprite > MS_SPD + 150 && sprite < MS_SPD + 200)
         {
             character = chica4.getImage();
             sprite++;
         }
-        if (sprite > ASPD + 201)
+        if (sprite > MS_SPD + 201)
         {
             sprite=0;
         }
@@ -367,27 +371,27 @@ public class Character
     public void rewalking()
     {
         sprite++;
-         if (sprite == ASPD)
+         if (sprite <= MS_SPD)
         {   
             character = leftchica1.getImage();
             sprite++;
         }
-        else if (sprite > ASPD + 30 && sprite < ASPD + 60)
+        else if (sprite > MS_SPD + 30 && sprite < MS_SPD + 60)
         {
             character = leftchica2.getImage();
             sprite++;
         }
-        else if (sprite > ASPD + 90 && sprite < ASPD + 120)
+        else if (sprite > MS_SPD + 90 && sprite < MS_SPD + 120)
         {
             character = leftchica3.getImage();
             sprite++;
         }
-        else if (sprite > ASPD + 150 && sprite < ASPD + 200)
+        else if (sprite > MS_SPD + 150 && sprite < MS_SPD + 200)
         {
             character = leftchica4.getImage();
             sprite++;
         }
-        if (sprite > ASPD + 201)
+        if (sprite > MS_SPD + 201)
         {
             sprite=0;
         }
@@ -625,7 +629,6 @@ public class Character
             }
             else if (female)
             {
-                sprite=0;
                 character = chica.getImage();
             }
             //heightdetect = true;
