@@ -9,6 +9,7 @@ public class Enemy
     int x, y;
     Image img;
     boolean alive = true;
+    
     int width = 68;
     int height = 68;
     

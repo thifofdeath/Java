@@ -9,6 +9,8 @@ public class Bullet
     int x, y;
     Image img;
     boolean visible;
+    int bulWidth = 21;
+    int bulHeight = 8;
     
     public Bullet(int startX, int startY, String image)
     {
@@ -64,6 +66,6 @@ public class Bullet
     
     public Rectangle getBounds()
     {
-        return new Rectangle(x,y, 31, 8);
+        return new Rectangle(x,y, bulWidth, bulHeight);
     }
 }

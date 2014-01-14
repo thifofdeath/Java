@@ -5,10 +5,13 @@ import javax.swing.*;
 public class GameTest
 {
     MainMenu m;
+    CharSelect cs;
     Board b;
     static JFrame menu = new JFrame();
+    static JFrame select = new JFrame();
     static JFrame frame = new JFrame();
     static int value = 0;
+    static int value1 = 0;
     
     public GameTest()
     {
@@ -20,12 +23,22 @@ public class GameTest
             menu.setSize(1200,800);// 800 for gravity test
             menu.setVisible(true);
             menu.setLocationRelativeTo(null);
-            value++;
         }
-        if (m.newgame)
+        if (value1 == 1)
         {
             menu.setVisible(false);
             menu.dispose();
+            select.add(new CharSelect());
+            select.setTitle("Character Select");
+            select.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            select.setSize(1200,800);// 800 for gravity test
+            select.setVisible(true);
+            select.setLocationRelativeTo(null);
+        }
+        if (cs.newgame)
+        {
+            select.setVisible(false);
+            select.dispose();
             frame.add(new Board());	
             frame.setTitle("2-D Test Game");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

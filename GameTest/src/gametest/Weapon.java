@@ -11,6 +11,9 @@ public class Weapon
     boolean visible = true;
     boolean weapon = true;
     
+    int width = 58;
+    int height = 48;
+    
     public Weapon(int startX, int startY, String image)
     {
         x = startX;
@@ -41,7 +44,7 @@ public class Weapon
     
     public Rectangle getBounds()
     {
-        return new Rectangle(x,y, 58, 48);
+        return new Rectangle(x,y, width, height);
     }
     
 }

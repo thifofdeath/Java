@@ -16,6 +16,7 @@ public class Character
     Image character;
     Board b;
     GameTest gt;
+    CharSelect cs;
     MainMenu m;
     
     //boolean left, right;
@@ -82,8 +83,8 @@ public class Character
     int ammo = 0;
     static ArrayList bullets;
     
-    boolean male=false;
-    boolean female=true;
+    static boolean male=false;
+    static boolean female=false;
     
     boolean allow;
     boolean melee= false;
@@ -260,7 +261,10 @@ public class Character
                 {
                     valueY=varY;
                 }
-                character = chicajumping2.getImage();
+                if (female)
+                {
+                    character = chicajumping2.getImage();
+                }
             }
         }
         if (moveY == -JUMPSPEED)
