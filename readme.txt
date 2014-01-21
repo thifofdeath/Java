@@ -1,3 +1,8 @@
+This is a 2D platformer GameTest to test out my java skills.
+This is a project for myself and i do not intend to release any of this.
+
+
+(Patch note is for myself mostly)
 Patch notes ._.
 
 3.3
