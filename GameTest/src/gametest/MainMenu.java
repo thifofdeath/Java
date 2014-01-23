@@ -6,6 +6,7 @@ import java.awt.event.*;
 
 public class MainMenu extends JPanel implements ActionListener
 {
+    Board b;
     static GameTest gt;
     Timer time;
     Image img;
@@ -13,7 +14,8 @@ public class MainMenu extends JPanel implements ActionListener
     private static int x,y;
     static Rectangle gameBounds = new Rectangle(800, 250, 300, 58);
     static Rectangle mouse = new Rectangle(x,y,0,0);
-    static boolean newgame;
+    Font fontBase;
+//    static boolean newgame;
     
     public MainMenu()
     {
@@ -23,7 +25,7 @@ public class MainMenu extends JPanel implements ActionListener
         img = Main.getImage();
         time = new Timer(5, this);
         time.start();
-        
+        fontBase = gt.fontRaw.deriveFont(Font.PLAIN, 40);
     }
     public void actionPerformed(ActionEvent e)
     {
@@ -34,7 +36,11 @@ public class MainMenu extends JPanel implements ActionListener
         super.paint(g);
         Graphics g2d = (Graphics2D) g;
         g2d.drawImage(img, 0 , 0, null);
+        g2d.setFont(fontBase);
+//        g2d.setColor(Color.yellow);
 //        g2d.fillRect(800, 250, 300, 58);
+        g2d.setColor(Color.BLACK);
+        g2d.drawString("New Game", 850, 300);
 //        g2d.fillRect(x,y,1,1);
     }
     

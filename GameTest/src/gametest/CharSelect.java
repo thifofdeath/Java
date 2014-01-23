@@ -14,7 +14,7 @@ public class CharSelect extends JPanel implements ActionListener
     static Rectangle gameBounds = new Rectangle(800, 250, 300, 58);
     static Rectangle mouse = new Rectangle(x,y,0,0);
     static boolean newgame;
-    
+    Font fontBase;
     static Font font = new Font("SanSerif", Font.BOLD, 20);
     
     public CharSelect()
@@ -25,7 +25,7 @@ public class CharSelect extends JPanel implements ActionListener
         img = charselect.getImage();
         time = new Timer(5, this);
         time.start();
-        
+//        fontBase = gt.fontRaw.deriveFont(Font.PLAIN, 18); TOO BLURRY, HERE JUST IN CASE
     }
     public void actionPerformed(ActionEvent e)
     {
@@ -56,15 +56,13 @@ public class CharSelect extends JPanel implements ActionListener
             if (x > 450 && y > 250 && x < 600 && y < 450)
             {
                 p.male=true;
-                p.female=false;
                 gt.value1++;
                 newgame=true;
                 new GameTest();
             }
-            else if (x > 650 && y > 250 && x < 800 && y < 450);
+            else if (x > 650 && y > 250 && x < 800 && y < 450)
             {
                 p.female = true;
-                p.male=false;
                 gt.value1++;
                 newgame=true;
                 new GameTest();

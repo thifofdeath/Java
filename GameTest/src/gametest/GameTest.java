@@ -1,5 +1,7 @@
 package gametest;
 
+import java.awt.Font;
+import java.io.BufferedInputStream;
 import javax.swing.*;
 
 public class GameTest
@@ -12,9 +14,21 @@ public class GameTest
     static JFrame frame = new JFrame();
     static int value = 0;
     static int value1 = 0;
+    static Font fontBase;
+    static Font fontRaw;
     
     public GameTest()
     {
+        try 
+        {
+            fontRaw = Font.createFont(Font.TRUETYPE_FONT, 
+                new BufferedInputStream(getClass().getClassLoader().
+                    getResourceAsStream("font/customfont.ttf")));
+            fontBase = fontRaw.deriveFont(Font.PLAIN, 24);
+        }
+        catch (Exception e)
+        {}
+        
         if (value <= 0)
         {
             menu.add(new MainMenu());

@@ -8,7 +8,7 @@ public class Bullet
     Character p = new Character();
     int x, y;
     Image img;
-    boolean visible;
+    static boolean visible;
     int bulWidth = 21;
     int bulHeight = 8;
     
@@ -38,21 +38,21 @@ public class Bullet
     
     public boolean getVisible()
     {
-            return visible;
+        return visible;
     }
     
     public void setVisible(boolean isVisible)
     {
-            visible = isVisible;
+        visible = isVisible;
     }
     
     public void move()
     {
         x = x + 3;
-        if (x > 1200)
-        {
-            visible = false;
-        }
+//        if (x > 1200)
+//        {
+//            visible = false;
+//        }
         // Fail attempt to make shoot left
 //        else 
 //        {

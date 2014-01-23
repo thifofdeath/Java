@@ -6,8 +6,8 @@ import java.awt.Rectangle;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.awt.image.*;
-import javax.imageio.*;
-import java.io.*;
+//import javax.imageio.*;
+//import java.io.*;
 
 public class Character 
 {
@@ -15,6 +15,7 @@ public class Character
     int valueX, valueY, moveX, moveY, FrameLength, FrameHeightTerrain, CharacterPos ;
     Image character;
     Board b;
+    Bullet bullet;
     GameTest gt;
     CharSelect cs;
     MainMenu m;
@@ -81,7 +82,7 @@ public class Character
     boolean bolgravity = true;
     
     int ammo = 0;
-    static ArrayList bullets;
+    static ArrayList bullets = new ArrayList();;
     
     static boolean male=false;
     static boolean female=false;
@@ -96,6 +97,7 @@ public class Character
     
     boolean weaponpickup1 = false;
     boolean weaponswitch1 = false;
+    boolean execute = true;
     
     boolean upgrade1 = false;
     boolean upgrade2 = false;
@@ -107,6 +109,7 @@ public class Character
     private BufferedImage[] idle;
 //    private BufferedImage[] walking;
     private boolean facingLeft;
+    
     Rectangle bodyBounds;
     int varY;
     
@@ -115,13 +118,21 @@ public class Character
         // Integer Value Initializing
         if (male)
         {
-            if (!weaponswitch1)
-            {
-                character = right.getImage();
-            }
-            else
+            if (weaponswitch1)
             {
                 character = weaponhold.getImage();
+            }
+            else if (upgrade1)
+            {
+                character = pistol1.getImage();
+            }
+            else if (upgrade2)
+            {
+                character = pistol2.getImage();
+            }
+            else 
+            {
+                character = right.getImage();
             }
         }
         else if (female)
@@ -143,9 +154,6 @@ public class Character
         
         FrameLength = 1200;
         FrameHeightTerrain = 0;
-        
-        bullets = new ArrayList();
-
     }
     // This is the declare new rectangle for arms, weapons, etc
     public Rectangle getBounds(int x, int y, int posx, int posy)
@@ -210,20 +218,23 @@ public class Character
         //if (allow)
 //        if (moveX == 1 || moveX == 0)
 //        {
-            if (ammo > 0)
+            if (ammo > 0 && execute)
             {
                 ammo--;
-                //The v is from the board class, which corresponds to the character's
-                //position when it is jumping, resulting in the bullets being formed 
-                //at a higher position when the character is at the peak of its jump
                 
                 // CharacterPos + 63, where 63 = the length of the character which is 63 x 154
                 // And valueY + 154/2 shoots from the middle of the character which is why
                 // It is 154 / 2
                 // Old CharacterPos + 63 (length of character), valueY + (154 / 2) to shoot from middle
-                Bullet a = new Bullet ((CharacterPos + 136), (valueY + (186-115)), "/images/bullet.png");
+                int extendX = 136;
+                if (upgrade1 || upgrade2)
+                {
+                    extendX = 150;
+                }
+                Bullet a = new Bullet ((CharacterPos + extendX), (valueY + (186-115)), bul);
                 bullets.add(a);
                 // allow = false;
+                execute = false;
             }
     }
 //        else 
@@ -257,6 +268,11 @@ public class Character
                 {
                     counter2=4;
                 }
+//                if (counter2 > 4)
+//                {
+//                    character = chicafalling.getImage();
+//                }
+                
                 if (valueY >= varY)
                 {
                     valueY=varY;
@@ -267,7 +283,7 @@ public class Character
                 }
             }
         }
-        if (moveY == -JUMPSPEED)
+        else 
         {
             gravity();
         }
@@ -488,13 +504,21 @@ public class Character
             moveX = MOVESPEED;
             if (male)
             {
-                if (!weaponswitch1)
-                {
-                    character = right.getImage();
-                }
-                else if (weaponswitch1)
+                if (weaponswitch1)
                 {
                     character = weaponhold.getImage();
+                }
+                else if (upgrade1)
+                {
+                    character = pistol1.getImage();
+                }
+                else if (upgrade2)
+                {
+                    character = pistol2.getImage();
+                }
+                else 
+                {
+                    character = right.getImage();
                 }
             }
             else if (female)
@@ -510,13 +534,21 @@ public class Character
             moveY = JUMPSPEED;
             if (male)
             {
-                if (!weaponswitch1)
-                {
-                    character = right.getImage();
-                }
-                else
+                if(weaponswitch1)
                 {
                     character = weaponhold.getImage();
+                }
+                else if (upgrade1)
+                {
+                    character = pistol1.getImage();
+                }
+                else if (upgrade2)
+                {
+                    character = pistol2.getImage();
+                }
+                else 
+                {
+                    character = right.getImage();
                 }
             }
             else if (female)
@@ -537,7 +569,10 @@ public class Character
             {
                 if (weaponpickup1)
                 {
-                    fire();
+                    if (execute)
+                    {
+                        fire();
+                    }
                 }
             }
             else if (female)
@@ -576,8 +611,11 @@ public class Character
         if (key == KeyEvent.VK_P)
         {
             gt.frame.dispose();
+            female = false;
+            male=false;
             gt.value = 0;
-            m.newgame = false;
+            gt.value1 = 0;
+            cs.newgame = false;
             new GameTest();
         }
     }
@@ -607,13 +645,21 @@ public class Character
             moveX = 0;
             if (male)
             {
-                if (!weaponswitch1)
-                {
-                    character = right.getImage();
-                }
-                else
+                if (weaponswitch1)
                 {
                     character = weaponhold.getImage();
+                }
+                else if (upgrade1)
+                {
+                    character = pistol1.getImage();
+                }
+                else if (upgrade2)
+                {
+                    character = pistol2.getImage();
+                }
+                else 
+                {
+                    character = right.getImage();
                 }
             }
             else if (female)
@@ -629,7 +675,18 @@ public class Character
             moveY = -JUMPSPEED;
             if (male)
             {
-                character = weaponhold.getImage();
+                if (weaponswitch1)
+                {
+                    character = weaponhold.getImage();
+                }
+                else if (upgrade1)
+                {
+                    character = pistol1.getImage();
+                }
+                else if (upgrade2)
+                {
+                    character = pistol2.getImage();
+                }
             }
             else if (female)
             {
@@ -642,6 +699,7 @@ public class Character
         {
             if (male)
             {
+               execute=true;
             }
             else if (female)
             {
